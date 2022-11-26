@@ -1,0 +1,14 @@
+
+<Rafael Correia,rafael@gmail.com,Presidente Prudente,São Paulo,Brasil,Ciência da Computação,FCT UNESP,Aluno competente,11111111111>
+<Rafael Correia 1,rafael@gmail.com,Presidente Prudente,São Paulo,Brasil,Ciência da Computação,FCT UNESP,Aluno competente,11111111112>
+<Rafael Correia 2,rafael@gmail.com,Presidente Prudente,São Paulo,Brasil,Ciência da Computação,FCT UNESP,Aluno competente,11111111113>
+<Rafael Correia 3,rafael@gmail.com,Presidente Prudente,São Paulo,Brasil,Ciência da Computação,FCT UNESP,Aluno competente,11111111114>
+<Rafael Correia 4,rafael@gmail.com,Presidente Prudente,São Paulo,Brasil,Ciência da Computação,FCT UNESP,Aluno competente,11111111115>
+alunos
+Rafael Correia|0,1|
+Rafael Correia 2|0|
+Rafael Correia 3|0|
+alunoVagas
+<Engenheiro de Software Estágiário,Tecnologia da Informação,São Paulo,Presidente Prudente,Estagio,800.0,30,180,Contrata pessoa engenheira de software por 3 mêses carga horário 30 horas semanais,Contratando>
+<Engenheiro de Software Estágiário 1,Tecnologia da Informação,São Paulo,Presidente Prudente,Estagio,800.0,30,180,Contrata pessoa engenheira de software por 3 mêses carga horário 30 horas semanais,Contratando>
+vagas
