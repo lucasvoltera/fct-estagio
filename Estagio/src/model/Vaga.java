@@ -4,13 +4,49 @@
  */
 package model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author ranoc
  */
 public class Vaga {
+    private int id;
+    private String nome;
+    private String areaAtuacao;
+    private String estado;
+    private String cidade;
+    private String modeloDeTrabalho;
+    private float salario;
+    private int cargaHoraria;
+    private int duracaoEstagio;
+    private String descricao;
+    private String status;
+    private String filtroPorUniversidade = "";
+    private String filtroPorCidade = "";
+    private String filtroPorEstado = "";
+    private boolean hasFiltro = false;
+    private ArrayList<Aluno> alunos = new ArrayList<>();
+    /*
+    TODO: guardar alunos dentro de cada vaga!!
+    */
 
-    public Vaga(String nome, String areaAtuacao, String cidade, String estado, String modeloDeTrabalho, float salario, int cargaHoraria, int duracaoEstagio, String descricao, String status) {
+    public Vaga() {
+    }
+
+    public Vaga(int id,
+            String nome,
+            String areaAtuacao, 
+            String cidade, 
+            String estado, 
+            String modeloDeTrabalho, 
+            float salario, 
+            int cargaHoraria, 
+            int duracaoEstagio, 
+            String descricao, 
+            String status,
+            ArrayList<Aluno> alunos){
+        this.id = id;
         this.nome = nome;
         this.areaAtuacao = areaAtuacao;
         this.cidade = cidade;
@@ -21,20 +57,77 @@ public class Vaga {
         this.duracaoEstagio = duracaoEstagio;
         this.descricao = descricao;
         this.status = status;
+        if(alunos != null)
+            this.alunos = alunos;
     }
 
     @Override
     public String toString() {
-        return "<" + nome + ","
-                + areaAtuacao + ","
-                + cidade + ","
-                + estado + ","
-                + modeloDeTrabalho + ","
-                + salario + ","
-                + cargaHoraria + ","
-                + duracaoEstagio + ","
-                + descricao + ","
-                + status + ">";
+        return nome;
+    }
+    
+    public String textFieldPrep(){
+        return "\n[" + nome + "]\n"
+                + areaAtuacao + "\n"
+                + cidade + "\n"
+                + estado + "\n"
+                + modeloDeTrabalho + "\n"
+                + salario + "\n"
+                + cargaHoraria + "\n"
+                + duracaoEstagio + "\n"
+                + descricao + "\n"
+                + status + "\n";
+    }
+
+    public void setFiltroPorCidade(String filtroPorCidade) {
+        hasFiltro = true;
+        this.filtroPorCidade = filtroPorCidade;
+    }
+
+    public void setFiltroPorEstado(String filtroPorEstado) {
+        hasFiltro = true;
+        this.filtroPorEstado = filtroPorEstado;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setHasFiltro(boolean hasFiltro) {
+        this.hasFiltro = hasFiltro;
+    }
+
+    public void setAlunos(ArrayList<Aluno> alunos) {
+        this.alunos = alunos;
+    }
+
+    public void setFiltroPorUniversidade(String filtroPorUniversidade) {
+        hasFiltro = true;
+        this.filtroPorUniversidade = filtroPorUniversidade;
+    }
+
+    public boolean isHasFiltro() {
+        return hasFiltro;
+    }
+
+    public String getFiltroPorUniversidade() {
+        return filtroPorUniversidade;
+    }
+
+    public String getFiltroPorCidade() {
+        return filtroPorCidade;
+    }
+
+    public String getFiltroPorEstado() {
+        return filtroPorEstado;
+    }
+
+    public ArrayList<Aluno> getAlunos() {
+        return alunos;
+    }
+    
+    public int getId() {
+        return id;
     }
 
     public String getNome() {
@@ -116,22 +209,12 @@ public class Vaga {
     public void setStatus(String status) {
         this.status = status;
     }
-    private String nome;
-    private String areaAtuacao;
-    private String estado;
-    private String cidade;
-    private String modeloDeTrabalho;
-    private float salario;
-    private int cargaHoraria;
-    private int duracaoEstagio;
-    private String descricao;
-    private String status;
-
+    
     public Aluno obterAluno(int cpf) {
-        return null;
+        return alunos.stream().filter(aluno -> aluno.getCPF().equals(cpf)).findFirst().orElse(null);
     }
 
-    public void adicionarAlunoCandidato(int cpf) {
-        return;
+    public void adicionarAlunoCandidato(Aluno a) {
+        alunos.add(a);
     }
 }

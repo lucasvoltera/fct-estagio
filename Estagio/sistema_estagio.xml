@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="17.0.5" class="java.beans.XMLDecoder">
+ <object class="model.SistemaEstagio" id="SistemaEstagio0">
+  <void property="alunos">
+   <void method="add">
+    <object class="model.Aluno" id="Aluno0">
+     <void property="CPF">
+      <string>12345678910</string>
+     </void>
+     <void property="cidade">
+      <string>cidade</string>
+     </void>
+     <void property="curso">
+      <string>curso</string>
+     </void>
+     <void property="descricao">
+      <string>descricao</string>
+     </void>
+     <void property="email">
+      <string>emai</string>
+     </void>
+     <void property="estado">
+      <string>estado</string>
+     </void>
+     <void property="nome">
+      <string>nome 1</string>
+     </void>
+     <void property="pais">
+      <string>pais</string>
+     </void>
+     <void property="universidade">
+      <string>universidade</string>
+     </void>
+    </object>
+   </void>
+  </void>
+  <void property="empresas">
+   <void method="add">
+    <object class="model.Empresa" id="Empresa0">
+     <void property="CNPJ">
+      <string>123456</string>
+     </void>
+     <void property="areaAtuacao">
+      <string>areaAtuacao</string>
+     </void>
+     <void property="email">
+      <string>email</string>
+     </void>
+     <void property="nome">
+      <string>nome</string>
+     </void>
+     <void property="porte">
+      <string>porte</string>
+     </void>
+     <void property="vagas">
+      <void method="add">
+       <object class="model.Vaga" id="Vaga0">
+        <void property="alunos">
+         <void method="add">
+          <object idref="Aluno0"/>
+         </void>
+        </void>
+        <void property="areaAtuacao">
+         <string>areaAtuacao</string>
+        </void>
+        <void property="cidade">
+         <string>cidade</string>
+        </void>
+        <void property="descricao">
+         <string>descricao</string>
+        </void>
+        <void property="estado">
+         <string>estado</string>
+        </void>
+        <void property="id">
+         <int>2</int>
+        </void>
+        <void property="modeloDeTrabalho">
+         <string>modeloDeTrabalho</string>
+        </void>
+        <void property="nome">
+         <string>nome 2</string>
+        </void>
+        <void property="status">
+         <string>status</string>
+        </void>
+       </object>
+      </void>
+     </void>
+    </object>
+   </void>
+  </void>
+ </object>
+</java>

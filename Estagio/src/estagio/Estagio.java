@@ -4,6 +4,12 @@
  */
 package estagio;
 
+import controller.SistemaEstagioController;
+import java.io.IOException;
+import model.Aluno;
+import model.Empresa;
+import model.Vaga;
+
 /**
  *
  * @author ranoc
@@ -12,9 +18,46 @@ public class Estagio {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args) throws IOException {
+        var sistema = new SistemaEstagioController();
+        /*
+        sistema.addAluno(new Aluno(
+                "nome 1",
+                "emai",
+                "cidade",
+                "estado",
+                "pais",
+                "curso",
+                "universidade",
+                "descricao",
+                "12345678910")
+        );
+        var vaga = new Vaga(2, 
+                "nome 2", 
+                "areaAtuacao", 
+                "cidade", 
+                "estado",
+                "modeloDeTrabalho",
+                0,
+                0,
+                0,
+                "descricao",
+                "status",
+                null);
+        sistema.addEmpresa(new Empresa(
+                "nome",
+                "123456",
+                "areaAtuacao",
+                "porte", 
+                "email",
+                null)
+        );
+        sistema.addVaga("123456", vaga);
+        sistema.addVagaAluno("12345678910", 2);
+        sistema.save();
+        */
     }
     
 }

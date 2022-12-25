@@ -3,29 +3,57 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-import controller.VagasController;
-import controller.AlunosController;
-import controller.AlunoVagasController;
-import files.FileManagementSystem;
+
+import controller.SistemaEstagioController;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Aluno;
+import model.Vaga;
+import model.VagasComboBoxModel;
 
 /**
  *
  * @author ranoc
  */
 public class AlunoView extends javax.swing.JFrame {
-    private FileManagementSystem files = new FileManagementSystem("test.txt");
-    
+    private Aluno currentAluno;
+    private VagasComboBoxModel vagasComboModel;
+    SistemaEstagioController system;
     /**
      * Creates new form AlunoView
      */
-    public AlunoView() {
+    public AlunoView() throws IOException {
+        system = new SistemaEstagioController();
+        
+        vagasComboModel = new VagasComboBoxModel(system.getVagas());
+        /*
+        TODO: Fazer sistema de login
+        */
+        currentAluno = system.getAlunoByCPF("123456789");
+        
         initComponents();   
-        
-        var alunosCtrl = new AlunosController();
-        var vagasCtrl = new VagasController();
-        var alunoVagasCtrl = new AlunoVagasController();
-        
-        alunosCtrl.addAluno("Rafael Correia",
+        /*
+        system.addAluno(new Aluno(
+                "nome",
+                "emai",
+                "cidade",
+                "estado",
+                "pais",
+                "curso",
+                "universidade",
+                "descricao",
+                "123456789")
+        );
+        system.addEmpresa(new Empresa(
+                "nome",
+                "1234",
+                "areaAtuacao",
+                "porte", 
+                "email",
+                null)
+        );
+        var a = new Aluno("Rafael Correia",
                 "rafael@gmail.com", 
                 "Presidente Prudente", 
                 "São Paulo", 
@@ -34,21 +62,36 @@ public class AlunoView extends javax.swing.JFrame {
                 "FCT UNESP", 
                 "Aluno competente", 
                 "11111111111");
-        
-        
-        vagasCtrl.addVaga("Engenheiro de Software Estágiário",
+        system.addAluno(a);
+        var v = new Vaga(1,
+                "Engenheiro de Software Estágiário",
                 "Tecnologia da Informação",
-                800.0f, 
                 "São Paulo", 
                 "Presidente Prudente", 
                 "Estagio",
+                800.0f,
                 30, 
                 180,
                 "Contrata pessoa engenheira de software por 3 mêses carga horário 30 horas semanais",
-                "empresa_x@email.com", 
-                "Contratando");
-        alunoVagasCtrl.candidatarVaga(alunosCtrl.getAlunos().get(0).getNome(), 0);
+                "Contratando",
+                null);
+        system.addVaga("1234", v);
+        system.addVagaAluno("11111111111", 1);
+        */
         //System.out.println(VagasController.vagas);
+        
+        populateVagas();
+        comboVaga.setVisible(false);
+        labelVaga.setVisible(false);
+        btnCandidatarAluno.setVisible(false);
+    }
+    
+    private void populateVagas(){
+        var showVagas = "";
+        for(var vaga : system.getVagas()){
+            showVagas += vaga.textFieldPrep();
+        }
+        tareaVagas.setText(showVagas);
     }
 
     /**
@@ -61,63 +104,45 @@ public class AlunoView extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        inputCPF = new javax.swing.JTextField();
-        labelCPF = new javax.swing.JLabel();
-        inputCidade = new javax.swing.JTextField();
-        labelCidade = new javax.swing.JLabel();
-        inputPais = new javax.swing.JTextField();
-        labelPais = new javax.swing.JLabel();
-        inputEstado = new javax.swing.JTextField();
-        labelEstado = new javax.swing.JLabel();
-        labelDesc = new javax.swing.JLabel();
-        inputUniversidade = new javax.swing.JTextField();
-        labelUni = new javax.swing.JLabel();
-        labelNome = new javax.swing.JLabel();
-        inputNome = new javax.swing.JTextField();
-        inputEmail = new javax.swing.JTextField();
-        labelEmail = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        inputDescricao = new javax.swing.JTextArea();
-        labelCurso = new javax.swing.JLabel();
-        inputCurso = new javax.swing.JTextField();
-        btnAdd = new javax.swing.JButton();
+        tareaVagas = new javax.swing.JTextArea();
+        comboVaga = new javax.swing.JComboBox(vagasComboModel);
+        btnCandidatarAluno = new javax.swing.JButton();
+        labelVaga = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        addAluno = new javax.swing.JMenuItem();
+        menuVagas = new javax.swing.JMenuItem();
+        menuCandidatar = new javax.swing.JMenu();
+        miCandVaga = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Perspectiva do Aluno");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Adicionar Aluno", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 24))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Vagas"));
 
-        labelCPF.setText("CPF");
+        tareaVagas.setEditable(false);
+        tareaVagas.setColumns(20);
+        tareaVagas.setRows(5);
+        tareaVagas.setEnabled(false);
+        jScrollPane1.setViewportView(tareaVagas);
 
-        labelCidade.setText("Cidade");
-
-        labelPais.setText("País");
-
-        labelEstado.setText("Estado");
-
-        labelDesc.setText("Descrição");
-
-        labelUni.setText("Universidade");
-
-        labelNome.setText("Nome");
-
-        labelEmail.setText("E-mail");
-
-        inputDescricao.setColumns(20);
-        inputDescricao.setRows(5);
-        jScrollPane1.setViewportView(inputDescricao);
-
-        labelCurso.setText("Curso");
-
-        btnAdd.setText("OK");
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+        comboVaga.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+                comboVagaActionPerformed(evt);
             }
         });
+
+        btnCandidatarAluno.setText("OK");
+        btnCandidatarAluno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCandidatarAlunoActionPerformed(evt);
+            }
+        });
+
+        labelVaga.setText("Selecionar Vaga");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -126,79 +151,28 @@ public class AlunoView extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(inputEmail)
-                    .addComponent(labelEmail)
-                    .addComponent(jScrollPane1)
-                    .addComponent(inputNome)
-                    .addComponent(labelNome)
-                    .addComponent(labelDesc)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(inputCidade, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                            .addComponent(inputPais)
-                            .addComponent(labelPais)
-                            .addComponent(labelCidade)
-                            .addComponent(labelCurso)
-                            .addComponent(inputCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(labelEstado)
-                                .addComponent(inputEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(labelCPF)
-                                .addComponent(inputCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(inputUniversidade, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelUni)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnAdd)))
+                        .addComponent(comboVaga, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCandidatarAluno, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(labelVaga)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {inputCPF, inputCidade, inputCurso, inputEstado, inputPais, inputUniversidade});
-
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(labelNome)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(labelVaga)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(inputNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(labelCurso)
-                                    .addComponent(labelUni))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(inputCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(inputUniversidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelCidade)
-                            .addComponent(labelEstado))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(inputCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(inputEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(labelPais)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(inputPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(labelCPF)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(inputCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelEmail)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(inputEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelDesc)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAdd))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboVaga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCandidatarAluno))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jMenu1.setText("File");
@@ -214,7 +188,31 @@ public class AlunoView extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
+
+        addAluno.setText("Adicionar Aluno");
+        addAluno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addAlunoActionPerformed(evt);
+            }
+        });
+        jMenu2.add(addAluno);
+
+        menuVagas.setText("Listar Vagas");
+        jMenu2.add(menuVagas);
+
         jMenuBar1.add(jMenu2);
+
+        menuCandidatar.setText("Candidatar");
+
+        miCandVaga.setText("Selecionar Vaga");
+        miCandVaga.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miCandVagaActionPerformed(evt);
+            }
+        });
+        menuCandidatar.add(miCandVaga);
+
+        jMenuBar1.add(menuCandidatar);
 
         setJMenuBar(jMenuBar1);
 
@@ -224,52 +222,55 @@ public class AlunoView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        files.save();
+        try {
+            system.save();
+        } catch (IOException ex) {
+            Logger.getLogger(AlunoView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        var nome = inputNome.getText();
-        var email = inputEmail.getText();
-        var cidade = inputCidade.getText();
-        var estado = inputEstado.getText();
-        var pais = inputPais.getText();
-        var curso = inputCurso.getText();
-        var universidade = inputUniversidade.getText();
-        var descricao = inputDescricao.getText();
-        var cpf = inputCPF.getText();
-        if(nome.isBlank() || email.isBlank() || cidade.isBlank() || estado.isBlank() || pais.isBlank() || curso.isBlank() || universidade.isBlank() || descricao.isBlank() || cpf.isBlank()){
-            return;
-        }
+    private void addAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAlunoActionPerformed
+        var vaga = AddAluno.getNew();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addAlunoActionPerformed
+
+    private void miCandVagaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCandVagaActionPerformed
+        tareaVagas.setText("");
+        comboVaga.setVisible(true);
+        labelVaga.setVisible(true);
+        btnCandidatarAluno.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miCandVagaActionPerformed
+
+    private void btnCandidatarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCandidatarAlunoActionPerformed
+        populateVagas();
         
-        var alunosCtrl = new AlunosController();
-        alunosCtrl.addAluno(nome, email, cidade, estado, pais, curso, universidade, descricao, cpf);
-        System.out.println(alunosCtrl);
-        
-        inputNome.setText("");
-        inputEmail.setText("");
-        inputCidade.setText("");
-        inputEstado.setText("");
-        inputPais.setText("");
-        inputCurso.setText("");
-        inputUniversidade.setText("");
-        inputDescricao.setText("");
-        inputCPF.setText("");
-    }//GEN-LAST:event_btnAddActionPerformed
+        comboVaga.setVisible(false);
+        labelVaga.setVisible(false);
+        btnCandidatarAluno.setVisible(false);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCandidatarAlunoActionPerformed
+
+    private void comboVagaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboVagaActionPerformed
+        Vaga selectedVaga = (Vaga) comboVaga.getSelectedItem();
+        tareaVagas.setText(selectedVaga.textFieldPrep());
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboVagaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -302,37 +303,29 @@ public class AlunoView extends javax.swing.JFrame {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AlunoView().setVisible(true);
-                
+                try {
+                    new AlunoView().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(AlunoView.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
-    private javax.swing.JTextField inputCPF;
-    private javax.swing.JTextField inputCidade;
-    private javax.swing.JTextField inputCurso;
-    private javax.swing.JTextArea inputDescricao;
-    private javax.swing.JTextField inputEmail;
-    private javax.swing.JTextField inputEstado;
-    private javax.swing.JTextField inputNome;
-    private javax.swing.JTextField inputPais;
-    private javax.swing.JTextField inputUniversidade;
+    private javax.swing.JMenuItem addAluno;
+    private javax.swing.JButton btnCandidatarAluno;
+    private javax.swing.JComboBox<String> comboVaga;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel labelCPF;
-    private javax.swing.JLabel labelCidade;
-    private javax.swing.JLabel labelCurso;
-    private javax.swing.JLabel labelDesc;
-    private javax.swing.JLabel labelEmail;
-    private javax.swing.JLabel labelEstado;
-    private javax.swing.JLabel labelNome;
-    private javax.swing.JLabel labelPais;
-    private javax.swing.JLabel labelUni;
+    private javax.swing.JLabel labelVaga;
+    private javax.swing.JMenu menuCandidatar;
+    private javax.swing.JMenuItem menuVagas;
+    private javax.swing.JMenuItem miCandVaga;
+    private javax.swing.JTextArea tareaVagas;
     // End of variables declaration//GEN-END:variables
 }

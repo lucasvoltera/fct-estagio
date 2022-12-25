@@ -4,10 +4,13 @@
  */
 package view;
 
-import files.FileManagementSystem;
-import controller.EmpresasController;
-import controller.VagasController;
-import controller.EmpresaVagasController;
+import controller.SistemaEstagioController;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Empresa;
+import model.Vaga;
+import model.VagasComboBoxModel;
         
 
 /**
@@ -15,12 +18,47 @@ import controller.EmpresaVagasController;
  * @author ranoc
  */
 public class EmpresaView extends javax.swing.JFrame {
-    private FileManagementSystem files = new FileManagementSystem("test.txt");
+    private final Empresa currentEmpresa;
+    private VagasComboBoxModel vagasComboModel;
+    private String nomeTituloPainelPrincipal = "Vagas Adicionadas";
+    SistemaEstagioController system;
     /**
      * Creates new form EmpresaView
+     * @throws java.io.IOException
      */
-    public EmpresaView() {
+    public EmpresaView() throws IOException {
+        this.system = new SistemaEstagioController();
+        vagasComboModel = new VagasComboBoxModel(system.getVagas());
+        /*
+        TODO: Fazer sistema de login
+        */
+        currentEmpresa = system.getEmpresaByCNPJ("123456");
         initComponents();
+        nomeTituloPainelPrincipal = "vaga";
+        populateTextArea();
+        
+    }
+    
+    private void populateTextArea(){
+        var textAreaString = "";
+        switch (nomeTituloPainelPrincipal) {
+            case "aluno" -> {
+                for( var aluno : system.getTodosAlunosPorEmpresa(currentEmpresa.getCNPJ())) {
+                    textAreaString += aluno.textFieldPrep();
+                }
+                taListItems.setText(textAreaString);
+            }
+            case "vaga" -> {
+                for( var vaga : currentEmpresa.getVagas()) {
+                    textAreaString += vaga.textFieldPrep();
+                }
+                taListItems.setText(textAreaString);
+            }
+            default -> {
+                break;
+            }
+        }
+        
     }
 
     /**
@@ -32,51 +70,43 @@ public class EmpresaView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem2 = new javax.swing.JMenuItem();
         panelAddEmpresa = new javax.swing.JPanel();
-        inputEmail = new javax.swing.JTextField();
-        labelEmail = new javax.swing.JLabel();
-        inputCNPJ = new javax.swing.JTextField();
-        labelCNPJ = new javax.swing.JLabel();
-        labelPorte = new javax.swing.JLabel();
-        labelNome = new javax.swing.JLabel();
-        inputNome = new javax.swing.JTextField();
-        labelArea = new javax.swing.JLabel();
-        inputAreaAtuacao = new javax.swing.JTextField();
-        btnAdd = new javax.swing.JButton();
-        selectPorte = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        taListItems = new javax.swing.JTextArea();
+        labelVaga = new javax.swing.JLabel();
+        comboVaga = new javax.swing.JComboBox(vagasComboModel);
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         menuItemSaveFile = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         menuAddEmpresa = new javax.swing.JMenuItem();
         menuAddVaga = new javax.swing.JMenuItem();
+        menuListar = new javax.swing.JMenu();
+        miListarVagas = new javax.swing.JMenuItem();
+        miListarAlunos = new javax.swing.JMenuItem();
+        menuEditar = new javax.swing.JMenu();
+        miEditarVaga = new javax.swing.JMenuItem();
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Perspectiva da Empresa");
 
-        panelAddEmpresa.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Adicionar Empresa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 24))); // NOI18N
+        panelAddEmpresa.setBorder(javax.swing.BorderFactory.createTitledBorder(null, nomeTituloPainelPrincipal, javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 24))); // NOI18N
+        panelAddEmpresa.setToolTipText("");
 
-        labelEmail.setText("E-mail");
+        taListItems.setEditable(false);
+        taListItems.setColumns(20);
+        taListItems.setRows(5);
+        taListItems.setEnabled(false);
+        jScrollPane1.setViewportView(taListItems);
 
-        labelCNPJ.setText("CNPJ");
+        labelVaga.setText("Filtrar por vaga");
 
-        labelPorte.setText("Porte");
-
-        labelNome.setText("Nome");
-
-        labelArea.setText("Área de Atuação");
-
-        btnAdd.setText("OK");
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+        comboVaga.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
-            }
-        });
-
-        selectPorte.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Micro-Empresa", "Pequeno", "Médio", "Grande", "Gigante" }));
-        selectPorte.setSelectedItem(-1);
-        selectPorte.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectPorteActionPerformed(evt);
+                comboVagaActionPerformed(evt);
             }
         });
 
@@ -87,54 +117,23 @@ public class EmpresaView extends javax.swing.JFrame {
             .addGroup(panelAddEmpresaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelAddEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(inputEmail)
-                    .addComponent(inputNome)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
                     .addGroup(panelAddEmpresaLayout.createSequentialGroup()
                         .addGroup(panelAddEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelEmail)
-                            .addComponent(labelCNPJ)
-                            .addComponent(inputCNPJ, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelAddEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelPorte)
-                            .addComponent(selectPorte, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAddEmpresaLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnAdd))
-                    .addGroup(panelAddEmpresaLayout.createSequentialGroup()
-                        .addGroup(panelAddEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelNome)
-                            .addComponent(labelArea))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(inputAreaAtuacao))
+                            .addComponent(labelVaga)
+                            .addComponent(comboVaga, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelAddEmpresaLayout.setVerticalGroup(
             panelAddEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAddEmpresaLayout.createSequentialGroup()
-                .addComponent(labelNome)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(labelVaga)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(inputNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(panelAddEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelAddEmpresaLayout.createSequentialGroup()
-                        .addComponent(labelPorte)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(selectPorte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelAddEmpresaLayout.createSequentialGroup()
-                        .addComponent(labelCNPJ)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(inputCNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelEmail)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(inputEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelArea)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(inputAreaAtuacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addComponent(btnAdd))
+                .addComponent(comboVaga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jMenu1.setText("File");
@@ -169,6 +168,38 @@ public class EmpresaView extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
+        menuListar.setText("Listar");
+
+        miListarVagas.setText("Vagas");
+        miListarVagas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miListarVagasActionPerformed(evt);
+            }
+        });
+        menuListar.add(miListarVagas);
+
+        miListarAlunos.setText("Alunos");
+        miListarAlunos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miListarAlunosActionPerformed(evt);
+            }
+        });
+        menuListar.add(miListarAlunos);
+
+        jMenuBar1.add(menuListar);
+
+        menuEditar.setText("Editar");
+
+        miEditarVaga.setText("Vaga");
+        miEditarVaga.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miEditarVagaActionPerformed(evt);
+            }
+        });
+        menuEditar.add(miEditarVaga);
+
+        jMenuBar1.add(menuEditar);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -183,54 +214,67 @@ public class EmpresaView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelAddEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panelAddEmpresa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        
-        try {
-            
-        } catch (Exception e) {
-        } finally {
-        }
-        
-        var nome = inputNome.getText();
-        var email = inputEmail.getText();
-        var areaAtuacao = inputAreaAtuacao.getText();
-        var CNPJ = inputCNPJ.getText();
-        var porte = selectPorte.getSelectedItem().toString();
-        
-        var empresasCtrl = new EmpresasController();
-        empresasCtrl.addEmpresa(nome, CNPJ, areaAtuacao, porte, email);
-        System.out.println(empresasCtrl);
-
-        inputNome.setText("");
-        inputEmail.setText("");
-        inputAreaAtuacao.setText("");
-        inputCNPJ.setText("");
-        selectPorte.setSelectedIndex(0);
-    }//GEN-LAST:event_btnAddActionPerformed
 
     private void menuItemSaveFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSaveFileActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_menuItemSaveFileActionPerformed
 
     private void menuAddEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAddEmpresaActionPerformed
-        panelAddEmpresa.setVisible(true);
+        var empresa = AddEmpresa.getNew();
+        
         // TODO add your handling code here:
     }//GEN-LAST:event_menuAddEmpresaActionPerformed
 
-    private void selectPorteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectPorteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_selectPorteActionPerformed
-
     private void menuAddVagaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAddVagaActionPerformed
-        AddVaga.main(null);        // TODO add your handling code here:
+        var vaga = AddVaga.getNew();        
+// TODO add your handling code here:
     }//GEN-LAST:event_menuAddVagaActionPerformed
+
+    private void miListarVagasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListarVagasActionPerformed
+        nomeTituloPainelPrincipal = "vaga";
+        populateTextArea();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miListarVagasActionPerformed
+
+    private void miListarAlunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListarAlunosActionPerformed
+        nomeTituloPainelPrincipal = "aluno";
+        populateTextArea();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miListarAlunosActionPerformed
+
+    private void comboVagaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboVagaActionPerformed
+        Vaga selectedVaga = (Vaga) comboVaga.getSelectedItem();
+        switch (nomeTituloPainelPrincipal) {
+            case "aluno":
+                var alunosFiltradosString = "";
+                for(var aluno : selectedVaga.getAlunos()){
+                    alunosFiltradosString += aluno.textFieldPrep();
+                } 
+                taListItems.setText(alunosFiltradosString);
+                break;
+            case "vaga":
+                taListItems.setText(selectedVaga.textFieldPrep());
+                break;
+            default:
+                throw new AssertionError();
+        }
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboVagaActionPerformed
+
+    private void miEditarVagaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEditarVagaActionPerformed
+        var vagaEditada = EditVaga.edit(currentEmpresa.getVagas());
+        if(vagaEditada != null)
+            system.editVaga(vagaEditada);
+        // TODO add your handling code here:
+        System.out.println(vagaEditada.textFieldPrep());
+    }//GEN-LAST:event_miEditarVagaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -262,29 +306,32 @@ public class EmpresaView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EmpresaView().setVisible(true);
+                try {
+                    new EmpresaView().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(EmpresaView.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
-    private javax.swing.JTextField inputAreaAtuacao;
-    private javax.swing.JTextField inputCNPJ;
-    private javax.swing.JTextField inputEmail;
-    private javax.swing.JTextField inputNome;
+    private javax.swing.JComboBox<String> comboVaga;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JLabel labelArea;
-    private javax.swing.JLabel labelCNPJ;
-    private javax.swing.JLabel labelEmail;
-    private javax.swing.JLabel labelNome;
-    private javax.swing.JLabel labelPorte;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelVaga;
     private javax.swing.JMenuItem menuAddEmpresa;
     private javax.swing.JMenuItem menuAddVaga;
+    private javax.swing.JMenu menuEditar;
     private javax.swing.JMenuItem menuItemSaveFile;
+    private javax.swing.JMenu menuListar;
+    private javax.swing.JMenuItem miEditarVaga;
+    private javax.swing.JMenuItem miListarAlunos;
+    private javax.swing.JMenuItem miListarVagas;
     private javax.swing.JPanel panelAddEmpresa;
-    private javax.swing.JComboBox<String> selectPorte;
+    private javax.swing.JTextArea taListItems;
     // End of variables declaration//GEN-END:variables
 }

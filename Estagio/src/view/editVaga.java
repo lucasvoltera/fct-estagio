@@ -4,18 +4,23 @@
  */
 package view;
 
+import java.util.ArrayList;
 import model.Vaga;
+import model.VagasComboBoxModel;
 
 /**
  *
  * @author ranoc
  */
-public class AddVaga extends javax.swing.JFrame {
+public class EditVaga extends javax.swing.JFrame {
+    private VagasComboBoxModel vagasComboModel;
     private static Vaga vaga;
     /**
      * Creates new form AddVaga
+     * @param vagas
      */
-    public AddVaga() {
+    public EditVaga(ArrayList<Vaga> vagas) {
+        this.vagasComboModel = new VagasComboBoxModel(vagas);
         initComponents();
     }
 
@@ -56,11 +61,14 @@ public class AddVaga extends javax.swing.JFrame {
         labelAreaAtuacao1 = new javax.swing.JLabel();
         inputFiltroEstado = new javax.swing.JTextField();
         labelSal1 = new javax.swing.JLabel();
+        comboVaga = new javax.swing.JComboBox(vagasComboModel);
+        jLabel1 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setType(java.awt.Window.Type.POPUP);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Adicionar Vaga", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 24))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Editar Vaga", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 24))); // NOI18N
 
         labelDuracao.setText("Duração em Dias");
 
@@ -85,6 +93,7 @@ public class AddVaga extends javax.swing.JFrame {
         labelAreaAtuacao.setText("Área de Atuação");
 
         btnAdd1.setText("OK");
+        btnAdd1.setEnabled(false);
         btnAdd1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAdd1ActionPerformed(evt);
@@ -135,18 +144,26 @@ public class AddVaga extends javax.swing.JFrame {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
+        comboVaga.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboVagaActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Selecionar Vaga");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(inputModeloTrabalho, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(inputNome1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(inputModeloTrabalho)
+                    .addComponent(jScrollPane2)
+                    .addComponent(inputNome1)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(inputCidade1)
                             .addComponent(inputCargaHoraria)
@@ -163,21 +180,29 @@ public class AddVaga extends javax.swing.JFrame {
                                 .addComponent(inputDuracao, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(inputSalario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelSal)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnAdd1))
+                    .addComponent(comboVaga, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelModeloTrab)
                             .addComponent(labelNome1)
-                            .addComponent(labelDesc1))
+                            .addComponent(labelDesc1)
+                            .addComponent(jLabel1))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnAdd1)))
+                    .addComponent(jSeparator1))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addComponent(jLabel1)
+                .addGap(5, 5, 5)
+                .addComponent(comboVaga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelNome1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(inputNome1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -284,15 +309,39 @@ public class AddVaga extends javax.swing.JFrame {
             inputModeloTrabalho.setText("");
             inputDescricao1.setText("");
             */
+            dispose();
         } catch (Exception e) {
             System.out.println(e);
         }
     }//GEN-LAST:event_btnAdd1ActionPerformed
 
+    private void comboVagaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboVagaActionPerformed
+        Vaga selectedVaga = (Vaga) comboVaga.getSelectedItem();
+        if(selectedVaga != null){
+            btnAdd1.setEnabled(true);
+            inputAreaAtuacao.setText(selectedVaga.getAreaAtuacao());
+            inputCargaHoraria.setText(Integer.toString(selectedVaga.getCargaHoraria()));
+            inputCidade1.setText(selectedVaga.getCidade());
+            inputDescricao1.setText(selectedVaga.getDescricao());
+            inputDuracao.setText(Integer.toString(selectedVaga.getDuracaoEstagio()));
+            inputEstado1.setText(selectedVaga.getEstado());
+            inputModeloTrabalho.setText(selectedVaga.getModeloDeTrabalho());
+            inputNome1.setText(selectedVaga.getNome());
+            inputSalario.setText(Float.toString(selectedVaga.getSalario()));
+            
+            if(selectedVaga.isHasFiltro()){
+                inputFiltroCidade.setText(selectedVaga.getFiltroPorCidade());
+                inputFiltroEstado.setText(selectedVaga.getFiltroPorEstado());
+                inputFiltroUni.setText(selectedVaga.getFiltroPorUniversidade());
+            }
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboVagaActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static Vaga getNew() {
+    public static Vaga edit(ArrayList<Vaga> vagas) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -306,20 +355,23 @@ public class AddVaga extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AddVaga().setVisible(true);
+                new EditVaga(vagas).setVisible(true);
             }
         });
         return vaga;
@@ -327,6 +379,7 @@ public class AddVaga extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd1;
+    private javax.swing.JComboBox<String> comboVaga;
     private javax.swing.JTextField inputAreaAtuacao;
     private javax.swing.JTextField inputCargaHoraria;
     private javax.swing.JTextField inputCidade1;
@@ -339,9 +392,11 @@ public class AddVaga extends javax.swing.JFrame {
     private javax.swing.JTextField inputModeloTrabalho;
     private javax.swing.JTextField inputNome1;
     private javax.swing.JTextField inputSalario;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel labelAreaAtuacao;
     private javax.swing.JLabel labelAreaAtuacao1;
     private javax.swing.JLabel labelCargaHoraria;

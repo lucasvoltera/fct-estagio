@@ -5,6 +5,7 @@
 package model;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,18 +22,16 @@ public class Aluno {
     private String universidade;
     private String descricao;
     private String CPF;
+    
 
+    public Aluno() {
+    }
+
+    
+    
     @Override
     public String toString() {
-        return "<" + nome + ","
-                + email + ","
-                + cidade + ","
-                + estado + ","
-                + pais + ","
-                + curso + ","
-                + universidade + ","
-                + descricao + ","
-                + CPF + ">";
+        return nome;
     }
 
     public Aluno(String nome, String email, String cidade, String estado, String pais, String curso, String universidade, String descricao, String CPF) {
@@ -47,6 +46,18 @@ public class Aluno {
         this.CPF = CPF;
     }
 
+    public String textFieldPrep(){
+        return "\n[" + nome + "]\n"
+                + email + "\n"
+                + cidade + "\n"
+                + estado + "\n"
+                + pais + "\n"
+                + curso + "\n"
+                + universidade + "\n"
+                + descricao + "\n"
+                + CPF + "\n";
+    }
+    
     public String getNome() {
         return nome;
     }
