@@ -58,6 +58,10 @@ public class EmpresaView extends javax.swing.JFrame {
                 break;
             }
         }
+    }
+    
+    private void update(){
+        populateTextArea();
         
     }
 
@@ -87,6 +91,7 @@ public class EmpresaView extends javax.swing.JFrame {
         miListarAlunos = new javax.swing.JMenuItem();
         menuEditar = new javax.swing.JMenu();
         miEditarVaga = new javax.swing.JMenuItem();
+        miEditarEmpresa = new javax.swing.JMenuItem();
 
         jMenuItem2.setText("jMenuItem2");
 
@@ -198,6 +203,14 @@ public class EmpresaView extends javax.swing.JFrame {
         });
         menuEditar.add(miEditarVaga);
 
+        miEditarEmpresa.setText("Empresa");
+        miEditarEmpresa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miEditarEmpresaActionPerformed(evt);
+            }
+        });
+        menuEditar.add(miEditarEmpresa);
+
         jMenuBar1.add(menuEditar);
 
         setJMenuBar(jMenuBar1);
@@ -222,29 +235,42 @@ public class EmpresaView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuItemSaveFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSaveFileActionPerformed
-        // TODO add your handling code here:
+        try {
+            system.save();
+// TODO add your handling code here:
+        } catch (IOException ex) {
+            Logger.getLogger(EmpresaView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_menuItemSaveFileActionPerformed
 
     private void menuAddEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAddEmpresaActionPerformed
-        var empresa = AddEmpresa.getNew();
-        
+        var newEmpresaFrame = new AddEmpresa(this);
+        newEmpresaFrame.setVisible(true);
+        var empresa = newEmpresaFrame.getEmpresa();
+        system.addEmpresa(empresa);
+        update();
+    
         // TODO add your handling code here:
     }//GEN-LAST:event_menuAddEmpresaActionPerformed
 
     private void menuAddVagaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAddVagaActionPerformed
-        var vaga = AddVaga.getNew();        
+        var newVagaFrame = new AddVaga(this);
+        newVagaFrame.setVisible(true);
+        var vaga = newVagaFrame.getVaga();
+        system.addVaga(currentEmpresa.getCNPJ(), vaga);
+        update();
 // TODO add your handling code here:
     }//GEN-LAST:event_menuAddVagaActionPerformed
 
     private void miListarVagasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListarVagasActionPerformed
         nomeTituloPainelPrincipal = "vaga";
-        populateTextArea();
+        update();
         // TODO add your handling code here:
     }//GEN-LAST:event_miListarVagasActionPerformed
 
     private void miListarAlunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListarAlunosActionPerformed
         nomeTituloPainelPrincipal = "aluno";
-        populateTextArea();
+        update();
         // TODO add your handling code here:
     }//GEN-LAST:event_miListarAlunosActionPerformed
 
@@ -269,12 +295,21 @@ public class EmpresaView extends javax.swing.JFrame {
     }//GEN-LAST:event_comboVagaActionPerformed
 
     private void miEditarVagaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEditarVagaActionPerformed
-        var vagaEditada = EditVaga.edit(currentEmpresa.getVagas());
-        if(vagaEditada != null)
-            system.editVaga(vagaEditada);
-        // TODO add your handling code here:
-        System.out.println(vagaEditada.textFieldPrep());
+        var vagaEditFrame = new EditVaga(this, system.getVagas());
+        vagaEditFrame.setVisible(true);
+        var vagaEditada = vagaEditFrame.getVagaEditada();
+        system.editVaga(vagaEditada);
+        update();
     }//GEN-LAST:event_miEditarVagaActionPerformed
+
+    private void miEditarEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEditarEmpresaActionPerformed
+        var empresaEditFrame = new EditEmpresa(this, currentEmpresa);
+        empresaEditFrame.setVisible(true);
+        var empresaEditada = empresaEditFrame.getEmpresaEditada();
+        system.editEmpresa(empresaEditada);
+        update();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miEditarEmpresaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -328,6 +363,7 @@ public class EmpresaView extends javax.swing.JFrame {
     private javax.swing.JMenu menuEditar;
     private javax.swing.JMenuItem menuItemSaveFile;
     private javax.swing.JMenu menuListar;
+    private javax.swing.JMenuItem miEditarEmpresa;
     private javax.swing.JMenuItem miEditarVaga;
     private javax.swing.JMenuItem miListarAlunos;
     private javax.swing.JMenuItem miListarVagas;

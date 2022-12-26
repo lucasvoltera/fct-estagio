@@ -4,19 +4,26 @@
  */
 package view;
 
+import javax.swing.JFrame;
 import model.Vaga;
 
 /**
  *
  * @author ranoc
  */
-public class AddVaga extends javax.swing.JFrame {
+public class AddVaga extends javax.swing.JDialog {
     private static Vaga vaga;
     /**
      * Creates new form AddVaga
+     * @param parent
      */
-    public AddVaga() {
+    public AddVaga(JFrame parent) {
+        super(parent, "Adicionar Vaga", true);
         initComponents();
+    }
+    
+    public Vaga getVaga(){
+        return vaga;
     }
 
     /**
@@ -150,11 +157,14 @@ public class AddVaga extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(inputCidade1)
                             .addComponent(inputCargaHoraria)
-                            .addComponent(labelCargaHoraria)
-                            .addComponent(labelCidade1)
-                            .addComponent(labelAreaAtuacao)
-                            .addComponent(inputAreaAtuacao, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(inputAreaAtuacao)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelCargaHoraria)
+                                    .addComponent(labelCidade1)
+                                    .addComponent(labelAreaAtuacao))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(labelEstado1)
@@ -292,38 +302,7 @@ public class AddVaga extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static Vaga getNew() {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AddVaga().setVisible(true);
-            }
-        });
-        return vaga;
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd1;

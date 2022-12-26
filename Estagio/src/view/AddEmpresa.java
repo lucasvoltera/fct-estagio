@@ -4,26 +4,28 @@
  */
 package view;
 
-import controller.SistemaEstagioController;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JFrame;
 import model.Empresa;
 
 /**
  *
  * @author ranoc
  */
-public class AddEmpresa extends javax.swing.JPanel {
+public class AddEmpresa extends javax.swing.JDialog {
     private static Empresa empresa;
 
     /**
      * Creates new form AddEmpresa
      */
-    public AddEmpresa() {
+    public AddEmpresa(JFrame parent) {
+        super(parent, "Adicionar Empresa", true);
         initComponents();
     }
 
+    public Empresa getEmpresa(){
+        return empresa;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -163,6 +165,7 @@ public class AddEmpresa extends javax.swing.JPanel {
         inputAreaAtuacao.setText("");
         inputCNPJ.setText("");
         selectPorte.setSelectedIndex(0);
+        dispose();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void selectPorteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectPorteActionPerformed
@@ -184,36 +187,5 @@ public class AddEmpresa extends javax.swing.JPanel {
     private javax.swing.JPanel panelAddEmpresa;
     private javax.swing.JComboBox<String> selectPorte;
     // End of variables declaration//GEN-END:variables
-    public static Empresa getNew() {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AddEmpresa().setVisible(true);
-            }
-        });
-        return empresa;
-    }
+   
 }

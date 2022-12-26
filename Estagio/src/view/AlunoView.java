@@ -25,13 +25,11 @@ public class AlunoView extends javax.swing.JFrame {
      */
     public AlunoView() throws IOException {
         system = new SistemaEstagioController();
-        
         vagasComboModel = new VagasComboBoxModel(system.getVagas());
         /*
         TODO: Fazer sistema de login
         */
         currentAluno = system.getAlunoByCPF("123456789");
-        
         initComponents();   
         /*
         system.addAluno(new Aluno(
@@ -93,6 +91,10 @@ public class AlunoView extends javax.swing.JFrame {
         }
         tareaVagas.setText(showVagas);
     }
+    
+    public void update(){
+        populateVagas();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -114,6 +116,7 @@ public class AlunoView extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         addAluno = new javax.swing.JMenuItem();
+        miEditarAluno = new javax.swing.JMenuItem();
         menuVagas = new javax.swing.JMenuItem();
         menuCandidatar = new javax.swing.JMenu();
         miCandVaga = new javax.swing.JMenuItem();
@@ -197,7 +200,20 @@ public class AlunoView extends javax.swing.JFrame {
         });
         jMenu2.add(addAluno);
 
+        miEditarAluno.setText("Editar Aluno");
+        miEditarAluno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miEditarAlunoActionPerformed(evt);
+            }
+        });
+        jMenu2.add(miEditarAluno);
+
         menuVagas.setText("Listar Vagas");
+        menuVagas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVagasActionPerformed(evt);
+            }
+        });
         jMenu2.add(menuVagas);
 
         jMenuBar1.add(jMenu2);
@@ -245,7 +261,11 @@ public class AlunoView extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void addAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAlunoActionPerformed
-        var vaga = AddAluno.getNew();
+        var addAlunoFrame = new AddAluno(this);
+        addAlunoFrame.setVisible(true);
+        var aluno = addAlunoFrame.getAluno();
+        system.addAluno(aluno);
+        
         // TODO add your handling code here:
     }//GEN-LAST:event_addAlunoActionPerformed
 
@@ -254,11 +274,11 @@ public class AlunoView extends javax.swing.JFrame {
         comboVaga.setVisible(true);
         labelVaga.setVisible(true);
         btnCandidatarAluno.setVisible(true);
-        // TODO add your handling code here:
+        update();
     }//GEN-LAST:event_miCandVagaActionPerformed
 
     private void btnCandidatarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCandidatarAlunoActionPerformed
-        populateVagas();
+        update();
         
         comboVaga.setVisible(false);
         labelVaga.setVisible(false);
@@ -271,6 +291,19 @@ public class AlunoView extends javax.swing.JFrame {
         tareaVagas.setText(selectedVaga.textFieldPrep());
         // TODO add your handling code here:
     }//GEN-LAST:event_comboVagaActionPerformed
+
+    private void miEditarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEditarAlunoActionPerformed
+        var editarAlunoFrame = new EditAluno(this, currentAluno);
+        editarAlunoFrame.setVisible(true);
+        var alunoEditado = editarAlunoFrame.getAlunoEditado();
+        system.addAluno(alunoEditado);
+        update();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miEditarAlunoActionPerformed
+
+    private void menuVagasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVagasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuVagasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -326,6 +359,7 @@ public class AlunoView extends javax.swing.JFrame {
     private javax.swing.JMenu menuCandidatar;
     private javax.swing.JMenuItem menuVagas;
     private javax.swing.JMenuItem miCandVaga;
+    private javax.swing.JMenuItem miEditarAluno;
     private javax.swing.JTextArea tareaVagas;
     // End of variables declaration//GEN-END:variables
 }

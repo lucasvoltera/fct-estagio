@@ -4,22 +4,34 @@
  */
 package view;
 
+import javax.swing.JFrame;
 import model.Empresa;
 
 /**
  *
  * @author ranoc
  */
-public class EditEmpresa extends javax.swing.JPanel {
+public class EditEmpresa extends javax.swing.JDialog {
     private static Empresa empresa;
 
     /**
      * Creates new form AddEmpresa
      */
-    public EditEmpresa() {
+    public EditEmpresa(JFrame parent, Empresa currentEmpresa) {
+        super(parent, "Editar Empresa", true);
         initComponents();
+        
+        inputNome.setText(empresa.getNome());
+        inputEmail.setText(empresa.getEmail());
+        inputAreaAtuacao.setText(empresa.getAreaAtuacao());
+        inputCNPJ.setText(empresa.getCNPJ());
+        selectPorte.setSelectedItem(empresa.getPorte());
     }
 
+    public Empresa getEmpresaEditada(){
+        return empresa;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,7 +41,6 @@ public class EditEmpresa extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelAddEmpresa = new javax.swing.JPanel();
         inputEmail = new javax.swing.JTextField();
         labelEmail = new javax.swing.JLabel();
         inputCNPJ = new javax.swing.JTextField();
@@ -41,8 +52,6 @@ public class EditEmpresa extends javax.swing.JPanel {
         inputAreaAtuacao = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         selectPorte = new javax.swing.JComboBox<>();
-
-        panelAddEmpresa.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Adicionar Empresa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 24))); // NOI18N
 
         labelEmail.setText("E-mail");
 
@@ -69,48 +78,49 @@ public class EditEmpresa extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout panelAddEmpresaLayout = new javax.swing.GroupLayout(panelAddEmpresa);
-        panelAddEmpresa.setLayout(panelAddEmpresaLayout);
-        panelAddEmpresaLayout.setHorizontalGroup(
-            panelAddEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAddEmpresaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelAddEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(inputEmail)
                     .addComponent(inputNome)
-                    .addGroup(panelAddEmpresaLayout.createSequentialGroup()
-                        .addGroup(panelAddEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelEmail)
                             .addComponent(labelCNPJ)
                             .addComponent(inputCNPJ, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelAddEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelPorte)
                             .addComponent(selectPorte, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAddEmpresaLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnAdd))
-                    .addGroup(panelAddEmpresaLayout.createSequentialGroup()
-                        .addGroup(panelAddEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelNome)
                             .addComponent(labelArea))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(inputAreaAtuacao))
-                .addContainerGap())
+                .addGap(14, 14, 14))
         );
-        panelAddEmpresaLayout.setVerticalGroup(
-            panelAddEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAddEmpresaLayout.createSequentialGroup()
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addComponent(labelNome)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(inputNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(panelAddEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelAddEmpresaLayout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(labelPorte)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(selectPorte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelAddEmpresaLayout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(labelCNPJ)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(inputCNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -123,28 +133,13 @@ public class EditEmpresa extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(inputAreaAtuacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addComponent(btnAdd))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panelAddEmpresa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelAddEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnAdd)
+                .addGap(26, 26, 26))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-
+        
         var nome = inputNome.getText();
         var email = inputEmail.getText();
         var areaAtuacao = inputAreaAtuacao.getText();
@@ -177,39 +172,7 @@ public class EditEmpresa extends javax.swing.JPanel {
     private javax.swing.JLabel labelEmail;
     private javax.swing.JLabel labelNome;
     private javax.swing.JLabel labelPorte;
-    private javax.swing.JPanel panelAddEmpresa;
     private javax.swing.JComboBox<String> selectPorte;
     // End of variables declaration//GEN-END:variables
-    public static Empresa getNew() {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddVaga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EditEmpresa().setVisible(true);
-            }
-        });
-        return empresa;
-    }
+    
 }

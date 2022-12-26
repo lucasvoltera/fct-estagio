@@ -9,6 +9,8 @@ import java.io.IOException;
 import model.Aluno;
 import model.Empresa;
 import model.Vaga;
+import view.AlunoView;
+import view.EmpresaView;
 
 /**
  *
@@ -21,7 +23,9 @@ public class Estagio {
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
-        var sistema = new SistemaEstagioController();
+        AlunoView.main(null);
+        EmpresaView.main(null);
+//var sistema = new SistemaEstagioController();
         /*
         sistema.addAluno(new Aluno(
                 "nome 1",
