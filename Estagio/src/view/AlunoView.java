@@ -261,7 +261,7 @@ public class AlunoView extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void addAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAlunoActionPerformed
-        var addAlunoFrame = new AddAluno(this);
+        var addAlunoFrame = new AddAlunoDialog(this);
         addAlunoFrame.setVisible(true);
         var aluno = addAlunoFrame.getAluno();
         system.addAluno(aluno);
@@ -293,9 +293,9 @@ public class AlunoView extends javax.swing.JFrame {
     }//GEN-LAST:event_comboVagaActionPerformed
 
     private void miEditarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEditarAlunoActionPerformed
-        var editarAlunoFrame = new EditAluno(this, currentAluno);
+        var editarAlunoFrame = new EditarAlunoDialog(this, currentAluno);
         editarAlunoFrame.setVisible(true);
-        var alunoEditado = editarAlunoFrame.getAlunoEditado();
+        var alunoEditado = editarAlunoFrame.getAluno();
         system.addAluno(alunoEditado);
         update();
         // TODO add your handling code here:

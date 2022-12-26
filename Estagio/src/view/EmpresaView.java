@@ -11,19 +11,21 @@ import java.util.logging.Logger;
 import model.Empresa;
 import model.Vaga;
 import model.VagasComboBoxModel;
-        
 
 /**
  *
  * @author ranoc
  */
 public class EmpresaView extends javax.swing.JFrame {
+
     private final Empresa currentEmpresa;
     private VagasComboBoxModel vagasComboModel;
     private String nomeTituloPainelPrincipal = "Vagas Adicionadas";
     SistemaEstagioController system;
+
     /**
      * Creates new form EmpresaView
+     *
      * @throws java.io.IOException
      */
     public EmpresaView() throws IOException {
@@ -31,25 +33,25 @@ public class EmpresaView extends javax.swing.JFrame {
         vagasComboModel = new VagasComboBoxModel(system.getVagas());
         /*
         TODO: Fazer sistema de login
-        */
+         */
         currentEmpresa = system.getEmpresaByCNPJ("123456");
         initComponents();
         nomeTituloPainelPrincipal = "vaga";
         populateTextArea();
-        
+
     }
-    
-    private void populateTextArea(){
+
+    private void populateTextArea() {
         var textAreaString = "";
         switch (nomeTituloPainelPrincipal) {
             case "aluno" -> {
-                for( var aluno : system.getTodosAlunosPorEmpresa(currentEmpresa.getCNPJ())) {
+                for (var aluno : system.getTodosAlunosPorEmpresa(currentEmpresa.getCNPJ())) {
                     textAreaString += aluno.textFieldPrep();
                 }
                 taListItems.setText(textAreaString);
             }
             case "vaga" -> {
-                for( var vaga : currentEmpresa.getVagas()) {
+                for (var vaga : currentEmpresa.getVagas()) {
                     textAreaString += vaga.textFieldPrep();
                 }
                 taListItems.setText(textAreaString);
@@ -59,10 +61,10 @@ public class EmpresaView extends javax.swing.JFrame {
             }
         }
     }
-    
-    private void update(){
+
+    private void updateFrame() {
         populateTextArea();
-        
+
     }
 
     /**
@@ -244,33 +246,39 @@ public class EmpresaView extends javax.swing.JFrame {
     }//GEN-LAST:event_menuItemSaveFileActionPerformed
 
     private void menuAddEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAddEmpresaActionPerformed
-        var newEmpresaFrame = new AddEmpresa(this);
+        var newEmpresaFrame = new AddEmpresaDialog(this);
         newEmpresaFrame.setVisible(true);
         var empresa = newEmpresaFrame.getEmpresa();
+        if (empresa == null) {
+            return;
+        }
         system.addEmpresa(empresa);
-        update();
-    
+        updateFrame();
+
         // TODO add your handling code here:
     }//GEN-LAST:event_menuAddEmpresaActionPerformed
 
     private void menuAddVagaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAddVagaActionPerformed
-        var newVagaFrame = new AddVaga(this);
+        var newVagaFrame = new AddVagaDialog(this);
         newVagaFrame.setVisible(true);
         var vaga = newVagaFrame.getVaga();
+        if (vaga == null) {
+            return;
+        }
         system.addVaga(currentEmpresa.getCNPJ(), vaga);
-        update();
+        updateFrame();
 // TODO add your handling code here:
     }//GEN-LAST:event_menuAddVagaActionPerformed
 
     private void miListarVagasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListarVagasActionPerformed
         nomeTituloPainelPrincipal = "vaga";
-        update();
+        updateFrame();
         // TODO add your handling code here:
     }//GEN-LAST:event_miListarVagasActionPerformed
 
     private void miListarAlunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListarAlunosActionPerformed
         nomeTituloPainelPrincipal = "aluno";
-        update();
+        updateFrame();
         // TODO add your handling code here:
     }//GEN-LAST:event_miListarAlunosActionPerformed
 
@@ -279,9 +287,9 @@ public class EmpresaView extends javax.swing.JFrame {
         switch (nomeTituloPainelPrincipal) {
             case "aluno":
                 var alunosFiltradosString = "";
-                for(var aluno : selectedVaga.getAlunos()){
+                for (var aluno : selectedVaga.getAlunos()) {
                     alunosFiltradosString += aluno.textFieldPrep();
-                } 
+                }
                 taListItems.setText(alunosFiltradosString);
                 break;
             case "vaga":
@@ -290,24 +298,31 @@ public class EmpresaView extends javax.swing.JFrame {
             default:
                 throw new AssertionError();
         }
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_comboVagaActionPerformed
 
     private void miEditarVagaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEditarVagaActionPerformed
-        var vagaEditFrame = new EditVaga(this, system.getVagas());
+        var vagaEditFrame = new EditVagaDialog(this, system.getVagas());
         vagaEditFrame.setVisible(true);
         var vagaEditada = vagaEditFrame.getVagaEditada();
+        if (vagaEditada == null) {
+            return;
+        }
         system.editVaga(vagaEditada);
-        update();
+        updateFrame();
+
     }//GEN-LAST:event_miEditarVagaActionPerformed
 
     private void miEditarEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEditarEmpresaActionPerformed
-        var empresaEditFrame = new EditEmpresa(this, currentEmpresa);
+        var empresaEditFrame = new EditarEmpresaDialog(this, currentEmpresa);
         empresaEditFrame.setVisible(true);
-        var empresaEditada = empresaEditFrame.getEmpresaEditada();
+        var empresaEditada = empresaEditFrame.getEmpresa();
+        if (empresaEditada == null || empresaEditFrame.equals(currentEmpresa)) {
+            return;
+        }
         system.editEmpresa(empresaEditada);
-        update();
+        updateFrame();
         // TODO add your handling code here:
     }//GEN-LAST:event_miEditarEmpresaActionPerformed
 

@@ -1,31 +1,29 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package view;
 
-import javax.swing.JFrame;
 import model.Empresa;
 
 /**
  *
  * @author ranoc
  */
-public class AddEmpresa extends javax.swing.JDialog {
+public class AddEmpresaDialog extends javax.swing.JDialog {
     private static Empresa empresa;
-
     /**
-     * Creates new form AddEmpresa
+     * Creates new form AddEmpresaDialog
      */
-    public AddEmpresa(JFrame parent) {
+    public AddEmpresaDialog(java.awt.Frame parent) {
         super(parent, "Adicionar Empresa", true);
         initComponents();
     }
-
+    
     public Empresa getEmpresa(){
         return empresa;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,6 +45,8 @@ public class AddEmpresa extends javax.swing.JDialog {
         inputAreaAtuacao = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         selectPorte = new javax.swing.JComboBox<>();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         panelAddEmpresa.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Adicionar Empresa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 24))); // NOI18N
 
@@ -88,7 +88,7 @@ public class AddEmpresa extends javax.swing.JDialog {
                         .addGroup(panelAddEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelEmail)
                             .addComponent(labelCNPJ)
-                            .addComponent(inputCNPJ, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE))
+                            .addComponent(inputCNPJ, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelAddEmpresaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelPorte)
@@ -128,25 +128,22 @@ public class AddEmpresa extends javax.swing.JDialog {
                 .addComponent(labelArea)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(inputAreaAtuacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addComponent(btnAdd))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panelAddEmpresa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(panelAddEmpresa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelAddEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(panelAddEmpresa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
@@ -158,8 +155,7 @@ public class AddEmpresa extends javax.swing.JDialog {
         var porte = selectPorte.getSelectedItem().toString();
 
         empresa = new Empresa(nome, CNPJ, areaAtuacao, porte, email, null);
-        
-        
+
         inputNome.setText("");
         inputEmail.setText("");
         inputAreaAtuacao.setText("");
@@ -187,5 +183,4 @@ public class AddEmpresa extends javax.swing.JDialog {
     private javax.swing.JPanel panelAddEmpresa;
     private javax.swing.JComboBox<String> selectPorte;
     // End of variables declaration//GEN-END:variables
-   
 }

@@ -14,14 +14,14 @@ import model.VagasComboBoxModel;
  *
  * @author ranoc
  */
-public class EditVaga extends javax.swing.JDialog {
+public class EditVagaDialog extends javax.swing.JDialog {
     private VagasComboBoxModel vagasComboModel;
     private static Vaga vaga;
     /**
      * Creates new form AddVaga
      * @param vagas
      */
-    public EditVaga(JFrame parent, ArrayList<Vaga> vagas) {
+    public EditVagaDialog(JFrame parent, ArrayList<Vaga> vagas) {
         super(parent, "Editar Vaga", true);
         this.vagasComboModel = new VagasComboBoxModel(vagas);
         initComponents();

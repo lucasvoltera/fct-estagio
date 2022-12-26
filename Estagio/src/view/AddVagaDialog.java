@@ -1,28 +1,28 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package view;
 
-import javax.swing.JFrame;
 import model.Vaga;
 
 /**
  *
  * @author ranoc
  */
-public class AddVaga extends javax.swing.JDialog {
+public class AddVagaDialog extends javax.swing.JDialog {
+
     private static Vaga vaga;
+
     /**
-     * Creates new form AddVaga
-     * @param parent
+     * Creates new form AddVagaDialog
      */
-    public AddVaga(JFrame parent) {
+    public AddVagaDialog(java.awt.Frame parent) {
         super(parent, "Adicionar Vaga", true);
         initComponents();
     }
-    
-    public Vaga getVaga(){
+
+    public Vaga getVaga() {
         return vaga;
     }
 
@@ -65,7 +65,6 @@ public class AddVaga extends javax.swing.JDialog {
         labelSal1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setType(java.awt.Window.Type.POPUP);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Adicionar Vaga", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 24))); // NOI18N
 
@@ -187,7 +186,7 @@ public class AddVaga extends javax.swing.JDialog {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addGap(20, 20, 20)
                 .addComponent(labelNome1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(inputNome1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -227,7 +226,7 @@ public class AddVaga extends javax.swing.JDialog {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 24, Short.MAX_VALUE)
                 .addComponent(btnAdd1))
         );
 
@@ -242,8 +241,8 @@ public class AddVaga extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -260,29 +259,32 @@ public class AddVaga extends javax.swing.JDialog {
             var duracao = Integer.parseInt(inputDuracao.getText());
             var modeloTrabalho = inputModeloTrabalho.getText();
             var descricao = inputDescricao1.getText();
-            
+
             vaga = new Vaga(0,
                     nome,
-                    areaAtuacao, 
-                    cidade, 
-                    estado, 
+                    areaAtuacao,
+                    cidade,
+                    estado,
                     modeloTrabalho,
-                    salario, 
-                    cargaHoraria, 
-                    duracao, 
-                    descricao, 
-                    estado, 
+                    salario,
+                    cargaHoraria,
+                    duracao,
+                    descricao,
+                    estado,
                     null);
             var filtroCidade = inputFiltroCidade.getText();
-            if(!filtroCidade.isBlank())
+            if (!filtroCidade.isBlank()) {
                 vaga.setFiltroPorCidade(filtroCidade);
+            }
             var filtroEstado = inputFiltroEstado.getText();
-            if(!filtroEstado.isBlank())
+            if (!filtroEstado.isBlank()) {
                 vaga.setFiltroPorEstado(filtroEstado);
+            }
             var filtroUni = inputFiltroUni.getText();
-            if(!filtroUni.isBlank())
+            if (!filtroUni.isBlank()) {
                 vaga.setFiltroPorUniversidade(filtroUni);
-            
+            }
+
             /*
             inputNome1.setText("");
             inputAreaAtuacao.setText("");
@@ -293,16 +295,13 @@ public class AddVaga extends javax.swing.JDialog {
             inputDuracao.setText("");
             inputModeloTrabalho.setText("");
             inputDescricao1.setText("");
-            */
+             */
+            dispose();
         } catch (Exception e) {
             System.out.println(e);
         }
     }//GEN-LAST:event_btnAdd1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd1;
