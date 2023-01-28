@@ -9,6 +9,7 @@ import java.io.IOException;
 import model.Aluno;
 import model.Empresa;
 import model.Vaga;
+import view.AddEmpresaDialog;
 import view.AlunoView;
 import view.EmpresaView;
 
@@ -22,10 +23,9 @@ public class Estagio {
      * @param args the command line arguments
      * @throws java.io.IOException
      */
-    public static void main(String[] args) throws IOException {
-        AlunoView.main(null);
-        EmpresaView.main(null);
-//var sistema = new SistemaEstagioController();
+    public static void main(String[] args) throws IOException, Exception {
+        //AlunoView.main(null);
+        //EmpresaView.main(null);
         /*
         sistema.addAluno(new Aluno(
                 "nome 1",
@@ -49,8 +49,13 @@ public class Estagio {
                 0,
                 "descricao",
                 "status",
-                null);
-        sistema.addEmpresa(new Empresa(
+                null); */
+       
+        //sistema.addVaga("123456", vaga);
+        //sistema.addVagaAluno("12345678910", 2);
+        /*
+        var sistema = new SistemaEstagioController();
+        sistema.cadastraPrimeiraEmpresa(new Empresa(
                 "nome",
                 "123456",
                 "areaAtuacao",
@@ -58,8 +63,6 @@ public class Estagio {
                 "email",
                 null)
         );
-        sistema.addVaga("123456", vaga);
-        sistema.addVagaAluno("12345678910", 2);
         sistema.save();
         */
     }

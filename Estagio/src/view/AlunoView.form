@@ -24,14 +24,6 @@
             <Property name="text" type="java.lang.String" value="Edit"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="addAluno">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Adicionar Aluno"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addAlunoActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miEditarAluno">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Editar Aluno"/>
@@ -40,12 +32,20 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miEditarAlunoActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="menuVagas">
+            <MenuItem class="javax.swing.JMenuItem" name="menuVagasDispo">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Listar Vagas"/>
+                <Property name="text" type="java.lang.String" value="Listar Vagas Dispon&#xed;veis"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuVagasActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuVagasDispoActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="menuVagasCandid">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Listar Vagas Candidatadas"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuVagasCandidActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -114,7 +114,9 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Vagas"/>
+            <TitledBorder title="Vagas">
+              <Font PropertyName="font" name="Segoe UI" size="24" style="0"/>
+            </TitledBorder>
           </Border>
         </Property>
       </Properties>

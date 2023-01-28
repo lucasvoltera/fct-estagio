@@ -6,6 +6,7 @@ package controller;
 
 import files.FileManagementSystem;
 import java.io.IOException;
+import static java.lang.ProcessHandle.current;
 import java.util.ArrayList;
 import model.Aluno;
 import model.Empresa;
@@ -18,26 +19,48 @@ import model.Vaga;
  */
 public class SistemaEstagioController {
     private String fileName;
-    private final SistemaEstagio system;
+    private SistemaEstagio system;
     private final AlunosController alCtrl = new AlunosController();
     private final EmpresasController emCtrl = new EmpresasController();
     private final VagasController vaCtrl  = new VagasController();
     
-    public SistemaEstagioController() throws IOException {
+    public SistemaEstagioController() throws IOException, Exception {
+        
+    }
+    
+    public boolean recuperaSistema() throws Exception{
         var tempSys = FileManagementSystem.recuperaPresidio(fileName);
         if(tempSys != null){
             system = (SistemaEstagio) tempSys;
             vaCtrl.addAll(system.getAllVagas());
             emCtrl.addAll(system.getEmpresas());
             alCtrl.addAll(system.getAlunos());
+            return true;
         }
         else
-            system = new SistemaEstagio();
+            return false;
     }
     
-    public SistemaEstagioController(String fileName) {
-        this.fileName = fileName;
-        system = new SistemaEstagio();
+    public int getPrimeiroIdDisponivelVaga(){
+        int i = 0;
+        for (; i < system.getAllVagas().size(); i++) {
+            if(i != system.getVagaById(i).getId())
+                return i;
+            
+        }
+        return i;
+    }
+    
+    public void cadastraPrimeiroAluno(Aluno a) throws Exception{
+        var alunoList = new ArrayList<Aluno>();
+        alunoList.add(a);
+        system = new SistemaEstagio(alunoList, null);
+    }
+    
+    public void cadastraPrimeiraEmpresa(Empresa e) throws Exception{
+        var empresaList = new ArrayList<Empresa>();
+        empresaList.add(e);
+        system = new SistemaEstagio(new ArrayList(), empresaList);
     }
     
     public ArrayList<Aluno> getTodosAlunosPorEmpresa(String cnpj){
@@ -82,6 +105,51 @@ public class SistemaEstagioController {
     public ArrayList<Vaga> getVagas(){
         return vaCtrl.getVagas();
     }
+    
+    public ArrayList<Vaga> getVagasFiltradas(Aluno aluno){
+        var vagas = vaCtrl.getVagas();
+        var vagasFiltradas = new ArrayList<Vaga>();
+        for(var vaga: vagas){
+            if(!vaga.getStatus().equals("contratando"))
+                continue;
+            if(vaga.getAlunos().contains(aluno))
+                continue;
+            if(vaga.isHasFiltro()){
+                var filCidade = vaga.getFiltroPorCidade();
+                var filEstado = vaga.getFiltroPorEstado();
+                var filUni = vaga.getFiltroPorUniversidade();
+
+                if(!filCidade.isBlank())
+                    if(aluno.getCidade().equals(filCidade))
+                        vagasFiltradas.add(vaga);
+                
+                if(!filEstado.isBlank())
+                    if(aluno.getEstado().equals(filEstado))
+                        vagasFiltradas.add(vaga);
+                
+                if(!filUni.isBlank())
+                    if(aluno.getUniversidade().equals(filUni))
+                        vagasFiltradas.add(vaga);
+                
+            }else{
+                vagasFiltradas.add(vaga);
+            }
+        }
+        return vagasFiltradas;
+    }
+    
+    public ArrayList<Vaga> getVagasPorAluno(Aluno a){
+        return system.getVagasPorAluno(a);
+    }
+    
+    public Empresa getCurrentEmpresa(){
+        return system.getEmpresaByCNPJ(system.getCurrentEmpresaCNPJ());
+    }
+    
+    public Aluno getCurrentAluno(){
+        return system.getAlunoByCPF(system.getCurrentAlunoCPF());
+    }
+    
     
     public ArrayList<Vaga> getVagasEmpresa(String cnpj){
         return system.getEmpresaByCNPJ(cnpj).getVagas();

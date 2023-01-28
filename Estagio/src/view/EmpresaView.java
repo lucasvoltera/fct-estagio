@@ -5,6 +5,8 @@
 package view;
 
 import controller.SistemaEstagioController;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +20,7 @@ import model.VagasComboBoxModel;
  */
 public class EmpresaView extends javax.swing.JFrame {
 
-    private final Empresa currentEmpresa;
+    private Empresa currentEmpresa;
     private VagasComboBoxModel vagasComboModel;
     private String nomeTituloPainelPrincipal = "Vagas Adicionadas";
     SistemaEstagioController system;
@@ -28,17 +30,31 @@ public class EmpresaView extends javax.swing.JFrame {
      *
      * @throws java.io.IOException
      */
-    public EmpresaView() throws IOException {
+    public EmpresaView() throws Exception{
         this.system = new SistemaEstagioController();
+        if(!system.recuperaSistema()){
+            var newEmpresaFrame = new AddEmpresaDialog(this);
+            newEmpresaFrame.setVisible(true);
+            var empresa = newEmpresaFrame.getEmpresa();
+            if (empresa == null) {
+                return;
+            }
+            system.cadastraPrimeiraEmpresa(empresa);
+        }
+        currentEmpresa = system.getCurrentEmpresa(); 
         vagasComboModel = new VagasComboBoxModel(system.getVagas());
-        /*
-        TODO: Fazer sistema de login
-         */
-        currentEmpresa = system.getEmpresaByCNPJ("123456");
         initComponents();
         nomeTituloPainelPrincipal = "vaga";
-        populateTextArea();
-
+        populateTextArea();        
+    }
+    
+    int getProximoIdVagaDisponivel(){
+        for (int i = 0; i < system.getVagas().size(); i++) {
+            if(i != system.getVagaById(i).getId())
+                return i;
+            
+        }
+        return -1;
     }
 
     private void populateTextArea() {
@@ -86,7 +102,6 @@ public class EmpresaView extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         menuItemSaveFile = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        menuAddEmpresa = new javax.swing.JMenuItem();
         menuAddVaga = new javax.swing.JMenuItem();
         menuListar = new javax.swing.JMenu();
         miListarVagas = new javax.swing.JMenuItem();
@@ -157,14 +172,6 @@ public class EmpresaView extends javax.swing.JFrame {
 
         jMenu2.setText("Adicionar");
 
-        menuAddEmpresa.setText("Empresa");
-        menuAddEmpresa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuAddEmpresaActionPerformed(evt);
-            }
-        });
-        jMenu2.add(menuAddEmpresa);
-
         menuAddVaga.setText("Vaga");
         menuAddVaga.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,7 +212,7 @@ public class EmpresaView extends javax.swing.JFrame {
         });
         menuEditar.add(miEditarVaga);
 
-        miEditarEmpresa.setText("Empresa");
+        miEditarEmpresa.setText("Empresa Atual");
         miEditarEmpresa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 miEditarEmpresaActionPerformed(evt);
@@ -245,27 +252,12 @@ public class EmpresaView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_menuItemSaveFileActionPerformed
 
-    private void menuAddEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAddEmpresaActionPerformed
-        var newEmpresaFrame = new AddEmpresaDialog(this);
-        newEmpresaFrame.setVisible(true);
-        var empresa = newEmpresaFrame.getEmpresa();
-        if (empresa == null) {
-            return;
-        }
-        system.addEmpresa(empresa);
-        updateFrame();
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_menuAddEmpresaActionPerformed
-
     private void menuAddVagaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAddVagaActionPerformed
-        var newVagaFrame = new AddVagaDialog(this);
+        var newVagaFrame = new AddVagaDialog(this, system.getPrimeiroIdDisponivelVaga());
         newVagaFrame.setVisible(true);
         var vaga = newVagaFrame.getVaga();
-        if (vaga == null) {
-            return;
-        }
-        system.addVaga(currentEmpresa.getCNPJ(), vaga);
+        if (vaga != null) 
+            system.addVaga(currentEmpresa.getCNPJ(), vaga);
         updateFrame();
 // TODO add your handling code here:
     }//GEN-LAST:event_menuAddVagaActionPerformed
@@ -314,6 +306,8 @@ public class EmpresaView extends javax.swing.JFrame {
 
     }//GEN-LAST:event_miEditarVagaActionPerformed
 
+    
+    
     private void miEditarEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEditarEmpresaActionPerformed
         var empresaEditFrame = new EditarEmpresaDialog(this, currentEmpresa);
         empresaEditFrame.setVisible(true);
@@ -326,6 +320,8 @@ public class EmpresaView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_miEditarEmpresaActionPerformed
 
+    
+ 
     /**
      * @param args the command line arguments
      */
@@ -357,8 +353,21 @@ public class EmpresaView extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new EmpresaView().setVisible(true);
+                    var empresaView = new EmpresaView();
+                    empresaView.setVisible(true);
+                    empresaView.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosing(WindowEvent e){
+                            try {
+                                empresaView.system.save();
+                            } catch (IOException ex) {
+                                Logger.getLogger(EmpresaView.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    });
                 } catch (IOException ex) {
+                    Logger.getLogger(EmpresaView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
                     Logger.getLogger(EmpresaView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -373,7 +382,6 @@ public class EmpresaView extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelVaga;
-    private javax.swing.JMenuItem menuAddEmpresa;
     private javax.swing.JMenuItem menuAddVaga;
     private javax.swing.JMenu menuEditar;
     private javax.swing.JMenuItem menuItemSaveFile;

@@ -29,14 +29,6 @@
             <Property name="text" type="java.lang.String" value="Adicionar"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="menuAddEmpresa">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Empresa"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuAddEmpresaActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuAddVaga">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Vaga"/>
@@ -85,7 +77,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miEditarEmpresa">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Empresa"/>
+                <Property name="text" type="java.lang.String" value="Empresa Atual"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miEditarEmpresaActionPerformed"/>

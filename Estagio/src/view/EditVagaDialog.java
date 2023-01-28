@@ -15,6 +15,7 @@ import model.VagasComboBoxModel;
  * @author ranoc
  */
 public class EditVagaDialog extends javax.swing.JDialog {
+    private Vaga selectedVaga;
     private VagasComboBoxModel vagasComboModel;
     private static Vaga vaga;
     /**
@@ -54,7 +55,6 @@ public class EditVagaDialog extends javax.swing.JDialog {
         labelSal = new javax.swing.JLabel();
         labelNome1 = new javax.swing.JLabel();
         inputNome1 = new javax.swing.JTextField();
-        inputModeloTrabalho = new javax.swing.JTextField();
         labelModeloTrab = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         inputDescricao1 = new javax.swing.JTextArea();
@@ -71,6 +71,9 @@ public class EditVagaDialog extends javax.swing.JDialog {
         comboVaga = new javax.swing.JComboBox(vagasComboModel);
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        comboStatus = new javax.swing.JComboBox<>();
+        labelModeloTrab1 = new javax.swing.JLabel();
+        comboModeloTrab = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setType(java.awt.Window.Type.POPUP);
@@ -159,6 +162,17 @@ public class EditVagaDialog extends javax.swing.JDialog {
 
         jLabel1.setText("Selecionar Vaga");
 
+        comboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "contratando", "em andamento", "finalizado" }));
+        comboStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboStatusActionPerformed(evt);
+            }
+        });
+
+        labelModeloTrab1.setText("Status");
+
+        comboModeloTrab.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "remoto", "presencial" }));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -167,38 +181,40 @@ public class EditVagaDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(inputModeloTrabalho)
                     .addComponent(jScrollPane2)
                     .addComponent(inputNome1)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(inputCidade1)
-                            .addComponent(inputCargaHoraria)
-                            .addComponent(labelCargaHoraria)
-                            .addComponent(labelCidade1)
-                            .addComponent(labelAreaAtuacao)
-                            .addComponent(inputAreaAtuacao, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(labelEstado1)
-                                .addComponent(inputEstado1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(labelDuracao)
-                                .addComponent(inputDuracao, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(inputSalario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelSal)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnAdd1))
                     .addComponent(comboVaga, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addComponent(jSeparator1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelModeloTrab)
-                            .addComponent(labelNome1)
-                            .addComponent(labelDesc1)
-                            .addComponent(jLabel1))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jSeparator1))
+                            .addComponent(inputCidade1)
+                            .addComponent(inputCargaHoraria)
+                            .addComponent(inputAreaAtuacao)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelCargaHoraria)
+                                    .addComponent(labelCidade1)
+                                    .addComponent(labelAreaAtuacao)
+                                    .addComponent(labelNome1)
+                                    .addComponent(labelDesc1)
+                                    .addComponent(jLabel1)
+                                    .addComponent(labelModeloTrab))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(comboModeloTrab, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelModeloTrab1)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(labelEstado1)
+                                .addComponent(inputEstado1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(labelDuracao)
+                                .addComponent(inputDuracao, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(inputSalario, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(labelSal)
+                                .addComponent(comboStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -240,9 +256,13 @@ public class EditVagaDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(inputDuracao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelModeloTrab)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelModeloTrab)
+                    .addComponent(labelModeloTrab1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(inputModeloTrabalho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboModeloTrab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelDesc1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -280,10 +300,11 @@ public class EditVagaDialog extends javax.swing.JDialog {
             var salario = Float.parseFloat(inputSalario.getText());
             var cargaHoraria = Integer.parseInt(inputCargaHoraria.getText());
             var duracao = Integer.parseInt(inputDuracao.getText());
-            var modeloTrabalho = inputModeloTrabalho.getText();
+            var modeloTrabalho = (String) comboModeloTrab.getSelectedItem();
             var descricao = inputDescricao1.getText();
+            var status = (String) comboStatus.getSelectedItem();
             
-            vaga = new Vaga(0,
+            vaga = new Vaga(selectedVaga.getId(),
                     nome,
                     areaAtuacao, 
                     cidade, 
@@ -293,7 +314,7 @@ public class EditVagaDialog extends javax.swing.JDialog {
                     cargaHoraria, 
                     duracao, 
                     descricao, 
-                    estado, 
+                    status, 
                     null);
             var filtroCidade = inputFiltroCidade.getText();
             if(!filtroCidade.isBlank())
@@ -323,7 +344,7 @@ public class EditVagaDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAdd1ActionPerformed
 
     private void comboVagaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboVagaActionPerformed
-        Vaga selectedVaga = (Vaga) comboVaga.getSelectedItem();
+        selectedVaga = (Vaga) comboVaga.getSelectedItem();
         if(selectedVaga != null){
             btnAdd1.setEnabled(true);
             inputAreaAtuacao.setText(selectedVaga.getAreaAtuacao());
@@ -332,7 +353,7 @@ public class EditVagaDialog extends javax.swing.JDialog {
             inputDescricao1.setText(selectedVaga.getDescricao());
             inputDuracao.setText(Integer.toString(selectedVaga.getDuracaoEstagio()));
             inputEstado1.setText(selectedVaga.getEstado());
-            inputModeloTrabalho.setText(selectedVaga.getModeloDeTrabalho());
+            comboModeloTrab.setSelectedItem(selectedVaga.getModeloDeTrabalho());
             inputNome1.setText(selectedVaga.getNome());
             inputSalario.setText(Float.toString(selectedVaga.getSalario()));
             
@@ -345,8 +366,14 @@ public class EditVagaDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboVagaActionPerformed
 
+    private void comboStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboStatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboStatusActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd1;
+    private javax.swing.JComboBox<String> comboModeloTrab;
+    private javax.swing.JComboBox<String> comboStatus;
     private javax.swing.JComboBox<String> comboVaga;
     private javax.swing.JTextField inputAreaAtuacao;
     private javax.swing.JTextField inputCargaHoraria;
@@ -357,7 +384,6 @@ public class EditVagaDialog extends javax.swing.JDialog {
     private javax.swing.JTextField inputFiltroCidade;
     private javax.swing.JTextField inputFiltroEstado;
     private javax.swing.JTextField inputFiltroUni;
-    private javax.swing.JTextField inputModeloTrabalho;
     private javax.swing.JTextField inputNome1;
     private javax.swing.JTextField inputSalario;
     private javax.swing.JLabel jLabel1;
@@ -374,6 +400,7 @@ public class EditVagaDialog extends javax.swing.JDialog {
     private javax.swing.JLabel labelDuracao;
     private javax.swing.JLabel labelEstado1;
     private javax.swing.JLabel labelModeloTrab;
+    private javax.swing.JLabel labelModeloTrab1;
     private javax.swing.JLabel labelNome1;
     private javax.swing.JLabel labelSal;
     private javax.swing.JLabel labelSal1;

@@ -11,16 +11,60 @@ import java.util.ArrayList;
  * @author ranoc
  */
 public class SistemaEstagio {
+    String currentAlunoCPF = "";
+    String currentEmpresaCNPJ = "";
     ArrayList<Aluno> alunos = new ArrayList<>();
     ArrayList<Empresa> empresas = new ArrayList<>();
 
     public SistemaEstagio() {
     }
+    
+    public SistemaEstagio(String current) throws Exception {
+        Empresa e = getEmpresaByCNPJ(current);
+        Aluno a = getAlunoByCPF(current);
+        if((a == null || e == null) && (!alunos.isEmpty() || !empresas.isEmpty()))
+            throw new Exception("Aluno ou Empresa não iniciado!");
+    }
 
-    public SistemaEstagio(ArrayList<Aluno> alunos, ArrayList<Empresa> empresas) {
+    public void setCurrentAlunoCPF(String currentAlunoCPF) {
+        this.currentAlunoCPF = currentAlunoCPF;
+    }
+
+    public void setCurrentEmpresaCNPJ(String currentEmpresaCNPJ) {
+        this.currentEmpresaCNPJ = currentEmpresaCNPJ;
+    }
+    
+    public ArrayList<Vaga> getVagasPorAluno(Aluno a){
+        var vagas = new ArrayList<Vaga>();
+        for(var vaga: getAllVagas()){
+            if(vaga.getAlunos().contains(a))
+                vagas.add(vaga);
+        }
+        return vagas;
+    }
+
+    public SistemaEstagio(ArrayList<Aluno> alunos, ArrayList<Empresa> empresas) throws Exception {
+        if(alunos == null || empresas == null){
+            throw new Exception("Empresas ou Alunos é null!");
+        }
+        
+        if(alunos.size() == 1){
+            currentAlunoCPF = alunos.get(0).getCPF();
+        }else if(empresas.size() == 1){
+            currentEmpresaCNPJ = empresas.get(0).getCNPJ();
+        }
         this.alunos = alunos;
         this.empresas = empresas;
     }
+
+    public String getCurrentAlunoCPF() {
+        return currentAlunoCPF;
+    }
+
+    public String getCurrentEmpresaCNPJ() {
+        return currentEmpresaCNPJ;
+    }
+    
     
 
     public ArrayList<Aluno> getAlunos() {
@@ -55,6 +99,8 @@ public class SistemaEstagio {
         Aluno aluno = getAlunoByCPF(a.getCPF());
         if(aluno != null)
             throw new Error("Aluno já existe!");
+        if(alunos.size() == 0)
+            currentAlunoCPF = a.getCPF();
         alunos.add(a);
     }
     

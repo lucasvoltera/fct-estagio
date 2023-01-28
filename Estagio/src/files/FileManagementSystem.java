@@ -10,8 +10,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import model.Aluno;
 import model.SistemaEstagio;
+import model.Vaga;
 
 /**
  *
@@ -21,8 +24,11 @@ public class FileManagementSystem {
     private static String FILE_NAME = "sistema_estagio";
     
     public static void armazenaSistema(SistemaEstagio sis) throws IOException{
+        File file = new File(FILE_NAME+".xml");
+        if(!file.exists())
+            file.createNewFile();
         try {
-            FileOutputStream fos = new FileOutputStream(new File(FILE_NAME+".xml"));
+            FileOutputStream fos = new FileOutputStream(file);
             try (XMLEncoder encoder = new XMLEncoder(fos)) {
                 encoder.writeObject(sis);
             }
@@ -32,22 +38,44 @@ public class FileManagementSystem {
         }
     }
     
-    public static SistemaEstagio recuperaPresidio(String fileName) throws IOException{
+    public static SistemaEstagio recuperaPresidio(String fileName) throws IOException, Exception{
+        if(fileName != null)
+            FILE_NAME = fileName;
+        File file = new File(FILE_NAME+".xml");
+        if (!file.exists())
+            return null;
         try {
-            if(fileName != null)
-                FILE_NAME = fileName;
-            FileInputStream fis = new FileInputStream(FILE_NAME+".xml");
+            FileInputStream fis = new FileInputStream(file);
             SistemaEstagio sis;
             try (XMLDecoder decoder = new XMLDecoder(fis)) {
-                sis = (SistemaEstagio) decoder.readObject();
+                var sistema = decoder.readObject();
+                if(sistema == null){
+                    fis.close();
+                    return null;
+                }
+                fis.close();
+                return (SistemaEstagio) sistema;
             }
-            fis.close();
-            return sis;
         } catch (IOException e) {
-            if(e instanceof FileNotFoundException){
-                return null;
-            }
             throw e;
         }
     }
+    public static void geraCertificadoAluno(Aluno a, Vaga v, String nomeEmpresa, String dataFim, String dataInicio){
+        try {
+            FileWriter myWriter = new FileWriter("filename.txt");
+            var certificadoString = "";
+            certificadoString += "Certificado \n\n";
+            certificadoString += "Ao aluno "+a.getNome()+", portador do CPF "+a.getCPF()+", por concluir o estágio "+v.getNome()+",\n";
+            certificadoString += "na emresa "+nomeEmpresa+", orientado pelo professor Rogório Garcia\n\n";
+            certificadoString += "O aluno estagiou entre "+ dataInicio +" e "+dataFim;
+            myWriter.write(certificadoString);
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+    }
 }
+
+

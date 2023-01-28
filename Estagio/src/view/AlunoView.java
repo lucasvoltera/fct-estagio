@@ -5,9 +5,14 @@
 package view;
 
 import controller.SistemaEstagioController;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
 import model.Aluno;
 import model.Vaga;
 import model.VagasComboBoxModel;
@@ -17,82 +22,58 @@ import model.VagasComboBoxModel;
  * @author ranoc
  */
 public class AlunoView extends javax.swing.JFrame {
+
     private Aluno currentAluno;
+    private ArrayList<Vaga> vagas = new ArrayList<>();
     private VagasComboBoxModel vagasComboModel;
     SistemaEstagioController system;
+
     /**
      * Creates new form AlunoView
      */
-    public AlunoView() throws IOException {
-        system = new SistemaEstagioController();
-        vagasComboModel = new VagasComboBoxModel(system.getVagas());
-        /*
-        TODO: Fazer sistema de login
-        */
-        currentAluno = system.getAlunoByCPF("123456789");
-        initComponents();   
-        /*
-        system.addAluno(new Aluno(
-                "nome",
-                "emai",
-                "cidade",
-                "estado",
-                "pais",
-                "curso",
-                "universidade",
-                "descricao",
-                "123456789")
-        );
-        system.addEmpresa(new Empresa(
-                "nome",
-                "1234",
-                "areaAtuacao",
-                "porte", 
-                "email",
-                null)
-        );
-        var a = new Aluno("Rafael Correia",
-                "rafael@gmail.com", 
-                "Presidente Prudente", 
-                "São Paulo", 
-                "Brasil", 
-                "Ciência da Computação", 
-                "FCT UNESP", 
-                "Aluno competente", 
-                "11111111111");
-        system.addAluno(a);
-        var v = new Vaga(1,
-                "Engenheiro de Software Estágiário",
-                "Tecnologia da Informação",
-                "São Paulo", 
-                "Presidente Prudente", 
-                "Estagio",
-                800.0f,
-                30, 
-                180,
-                "Contrata pessoa engenheira de software por 3 mêses carga horário 30 horas semanais",
-                "Contratando",
-                null);
-        system.addVaga("1234", v);
-        system.addVagaAluno("11111111111", 1);
-        */
-        //System.out.println(VagasController.vagas);
-        
+    public AlunoView() throws IOException, Exception {
+        this.system = new SistemaEstagioController();
+        if (!system.recuperaSistema()) {
+            var newAlunoFrame = new AddAlunoDialog(this);
+            newAlunoFrame.setVisible(true);
+            var aluno = newAlunoFrame.getAluno();
+            if (aluno == null) {
+                return;
+            }
+            system.cadastraPrimeiroAluno(aluno);
+        }
+
+        currentAluno = system.getCurrentAluno();
+        if (currentAluno == null) {
+            var newAlunoFrame = new AddAlunoDialog(this);
+            newAlunoFrame.setVisible(true);
+            var aluno = newAlunoFrame.getAluno();
+            if (aluno == null) {
+                return;
+            }
+            system.addAluno(aluno);
+            currentAluno = aluno;
+        }
+        vagasComboModel = new VagasComboBoxModel(system.getVagasFiltradas(currentAluno));
+
+        vagas = system.getVagasFiltradas(currentAluno);
+        initComponents();
         populateVagas();
+
         comboVaga.setVisible(false);
         labelVaga.setVisible(false);
         btnCandidatarAluno.setVisible(false);
     }
-    
-    private void populateVagas(){
+
+    private void populateVagas() {
         var showVagas = "";
-        for(var vaga : system.getVagas()){
+        for (var vaga : vagas) {
             showVagas += vaga.textFieldPrep();
         }
         tareaVagas.setText(showVagas);
     }
     
-    public void update(){
+    public void update() {
         populateVagas();
     }
 
@@ -115,16 +96,16 @@ public class AlunoView extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        addAluno = new javax.swing.JMenuItem();
         miEditarAluno = new javax.swing.JMenuItem();
-        menuVagas = new javax.swing.JMenuItem();
+        menuVagasDispo = new javax.swing.JMenuItem();
+        menuVagasCandid = new javax.swing.JMenuItem();
         menuCandidatar = new javax.swing.JMenu();
         miCandVaga = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Perspectiva do Aluno");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Vagas"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Vagas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 24))); // NOI18N
 
         tareaVagas.setEditable(false);
         tareaVagas.setColumns(20);
@@ -192,14 +173,6 @@ public class AlunoView extends javax.swing.JFrame {
 
         jMenu2.setText("Edit");
 
-        addAluno.setText("Adicionar Aluno");
-        addAluno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addAlunoActionPerformed(evt);
-            }
-        });
-        jMenu2.add(addAluno);
-
         miEditarAluno.setText("Editar Aluno");
         miEditarAluno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,13 +181,21 @@ public class AlunoView extends javax.swing.JFrame {
         });
         jMenu2.add(miEditarAluno);
 
-        menuVagas.setText("Listar Vagas");
-        menuVagas.addActionListener(new java.awt.event.ActionListener() {
+        menuVagasDispo.setText("Listar Vagas Disponíveis");
+        menuVagasDispo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuVagasActionPerformed(evt);
+                menuVagasDispoActionPerformed(evt);
             }
         });
-        jMenu2.add(menuVagas);
+        jMenu2.add(menuVagasDispo);
+
+        menuVagasCandid.setText("Listar Vagas Candidatadas");
+        menuVagasCandid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVagasCandidActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menuVagasCandid);
 
         jMenuBar1.add(jMenu2);
 
@@ -260,15 +241,6 @@ public class AlunoView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void addAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAlunoActionPerformed
-        var addAlunoFrame = new AddAlunoDialog(this);
-        addAlunoFrame.setVisible(true);
-        var aluno = addAlunoFrame.getAluno();
-        system.addAluno(aluno);
-        
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addAlunoActionPerformed
-
     private void miCandVagaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCandVagaActionPerformed
         tareaVagas.setText("");
         comboVaga.setVisible(true);
@@ -278,8 +250,11 @@ public class AlunoView extends javax.swing.JFrame {
     }//GEN-LAST:event_miCandVagaActionPerformed
 
     private void btnCandidatarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCandidatarAlunoActionPerformed
+        var vagaCadastrada = vagasComboModel.getSelectedItem();
+        system.addVagaAluno(currentAluno.getCPF(), vagaCadastrada.getId());
+
         update();
-        
+
         comboVaga.setVisible(false);
         labelVaga.setVisible(false);
         btnCandidatarAluno.setVisible(false);
@@ -296,14 +271,23 @@ public class AlunoView extends javax.swing.JFrame {
         var editarAlunoFrame = new EditarAlunoDialog(this, currentAluno);
         editarAlunoFrame.setVisible(true);
         var alunoEditado = editarAlunoFrame.getAluno();
-        system.addAluno(alunoEditado);
+        if(alunoEditado != null)
+            system.addAluno(alunoEditado);
         update();
         // TODO add your handling code here:
     }//GEN-LAST:event_miEditarAlunoActionPerformed
 
-    private void menuVagasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVagasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_menuVagasActionPerformed
+    private void menuVagasDispoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVagasDispoActionPerformed
+        vagas = system.getVagasFiltradas(currentAluno);
+        update();
+// TODO add your handling code here:
+    }//GEN-LAST:event_menuVagasDispoActionPerformed
+
+    private void menuVagasCandidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVagasCandidActionPerformed
+        vagas = system.getVagasPorAluno(currentAluno);
+        update();
+// TODO add your handling code here:
+    }//GEN-LAST:event_menuVagasCandidActionPerformed
 
     /**
      * @param args the command line arguments
@@ -331,14 +315,26 @@ public class AlunoView extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(AlunoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         /* Create and display the form */
-        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new AlunoView().setVisible(true);
+                    var alunoView = new AlunoView();
+                    alunoView.setVisible(true);
+                    alunoView.addWindowListener(new WindowAdapter()  {
+                        @Override
+                        public void windowClosing (WindowEvent e){
+                            try {
+                                alunoView.system.save();
+                            } catch (IOException ex) {
+                                Logger.getLogger(EmpresaView.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    });
                 } catch (IOException ex) {
+                    Logger.getLogger(AlunoView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
                     Logger.getLogger(AlunoView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -346,7 +342,6 @@ public class AlunoView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem addAluno;
     private javax.swing.JButton btnCandidatarAluno;
     private javax.swing.JComboBox<String> comboVaga;
     private javax.swing.JMenu jMenu1;
@@ -357,7 +352,8 @@ public class AlunoView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelVaga;
     private javax.swing.JMenu menuCandidatar;
-    private javax.swing.JMenuItem menuVagas;
+    private javax.swing.JMenuItem menuVagasCandid;
+    private javax.swing.JMenuItem menuVagasDispo;
     private javax.swing.JMenuItem miCandVaga;
     private javax.swing.JMenuItem miEditarAluno;
     private javax.swing.JTextArea tareaVagas;

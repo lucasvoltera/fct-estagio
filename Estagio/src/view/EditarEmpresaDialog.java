@@ -15,10 +15,17 @@ public class EditarEmpresaDialog extends javax.swing.JDialog {
         
     /**
      * Creates new form EditarEmpresaDIalog
+     * @param parent is the parent Frame
+     * @param prevEmpresa
      */
     public EditarEmpresaDialog(java.awt.Frame parent, Empresa prevEmpresa ) {
         super(parent, "Editar Empresa: "+prevEmpresa.getNome(), true);
         initComponents();
+        inputNome.setText(prevEmpresa.getNome());
+        inputEmail.setText(prevEmpresa.getEmail());
+        inputAreaAtuacao.setText(prevEmpresa.getAreaAtuacao());
+        inputCNPJ.setText(prevEmpresa.getCNPJ());
+        selectPorte.setSelectedItem(prevEmpresa.getPorte());
     }
 
     public Empresa getEmpresa() {
