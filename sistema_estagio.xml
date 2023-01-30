@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="17.0.5" class="java.beans.XMLDecoder">
+ <object class="model.SistemaEstagio" id="SistemaEstagio0">
+  <void property="alunos">
+   <void method="add">
+    <object class="model.Aluno" id="Aluno0">
+     <void property="CPF">
+      <string>12345678</string>
+     </void>
+     <void property="cidade">
+      <string>pp</string>
+     </void>
+     <void property="curso">
+      <string>Computa</string>
+     </void>
+     <void property="descricao">
+      <string>oasjdalsndkla</string>
+     </void>
+     <void property="email">
+      <string>a@aluno.com</string>
+     </void>
+     <void property="estado">
+      <string>sp</string>
+     </void>
+     <void property="nome">
+      <string>Novo aluno</string>
+     </void>
+     <void property="pais">
+      <string>br</string>
+     </void>
+     <void property="projetos">
+      <void method="add">
+       <object class="model.ProjetoPessoal">
+        <void property="descricao">
+         <string>sdouhn</string>
+        </void>
+        <void property="linkDoRepositorio">
+         <string>ipuh</string>
+        </void>
+        <void property="nome">
+         <string>ksjdfb</string>
+        </void>
+       </object>
+      </void>
+     </void>
+     <void property="universidade">
+      <string>fct</string>
+     </void>
+    </object>
+   </void>
+  </void>
+  <void property="currentAlunoCPF">
+   <string>12345678</string>
+  </void>
+  <void property="currentEmpresaCNPJ">
+   <string>123456</string>
+  </void>
+  <void property="empresas">
+   <void method="add">
+    <object class="model.Empresa" id="Empresa0">
+     <void property="CNPJ">
+      <string>123456</string>
+     </void>
+     <void property="areaAtuacao">
+      <string>Computa</string>
+     </void>
+     <void property="email">
+      <string>eail@e.com</string>
+     </void>
+     <void property="nome">
+      <string>Empresa 1</string>
+     </void>
+     <void property="porte">
+      <string>Pequeno</string>
+     </void>
+     <void property="vagas">
+      <void method="add">
+       <object class="model.Vaga" id="Vaga0">
+        <void property="alunos">
+         <void method="add">
+          <object idref="Aluno0"/>
+         </void>
+        </void>
+        <void property="areaAtuacao">
+         <string>COmputa</string>
+        </void>
+        <void property="cargaHoraria">
+         <int>10</int>
+        </void>
+        <void property="cidade">
+         <string>pp</string>
+        </void>
+        <void property="descricao">
+         <string>aosudnasoundasojdoias</string>
+        </void>
+        <void property="duracaoEstagio">
+         <int>2</int>
+        </void>
+        <void property="estado">
+         <string>sp</string>
+        </void>
+        <void property="modeloDeTrabalho">
+         <string>presencial</string>
+        </void>
+        <void property="nome">
+         <string>Vaga 1</string>
+        </void>
+        <void property="salario">
+         <float>1200.0</float>
+        </void>
+        <void property="status">
+         <string>contratando</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="model.Vaga" id="Vaga1">
+        <void property="alunos">
+         <void method="add">
+          <object idref="Aluno0"/>
+         </void>
+        </void>
+        <void property="areaAtuacao">
+         <string>computa</string>
+        </void>
+        <void property="cargaHoraria">
+         <int>10</int>
+        </void>
+        <void property="cidade">
+         <string>pp</string>
+        </void>
+        <void property="descricao">
+         <string>a~çljsdhaiuosgdiyasd</string>
+        </void>
+        <void property="duracaoEstagio">
+         <int>5</int>
+        </void>
+        <void property="estado">
+         <string>sp</string>
+        </void>
+        <void property="id">
+         <int>1</int>
+        </void>
+        <void property="modeloDeTrabalho">
+         <string>remoto</string>
+        </void>
+        <void property="nome">
+         <string>vaga 2 </string>
+        </void>
+        <void property="salario">
+         <float>123.0</float>
+        </void>
+        <void property="status">
+         <string>contratando</string>
+        </void>
+       </object>
+      </void>
+      <void method="add">
+       <object class="model.Vaga">
+        <void property="areaAtuacao">
+         <string>computa</string>
+        </void>
+        <void property="cargaHoraria">
+         <int>12</int>
+        </void>
+        <void property="cidade">
+         <string>pp</string>
+        </void>
+        <void property="descricao">
+         <string>as~dçklnjhaiupdhasiad</string>
+        </void>
+        <void property="duracaoEstagio">
+         <int>30</int>
+        </void>
+        <void property="estado">
+         <string>sp</string>
+        </void>
+        <void property="id">
+         <int>2</int>
+        </void>
+        <void property="modeloDeTrabalho">
+         <string>remoto</string>
+        </void>
+        <void property="nome">
+         <string>voltera</string>
+        </void>
+        <void property="status">
+         <string>contratando</string>
+        </void>
+       </object>
+      </void>
+     </void>
+    </object>
+   </void>
+  </void>
+ </object>
+</java>
