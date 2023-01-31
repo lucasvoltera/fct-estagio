@@ -63,7 +63,7 @@ public class FileManagementSystem {
     }
     public static String geraCertificadoAluno(Certificado c){
         try {
-            FileWriter myWriter = new FileWriter("filename.txt");
+            FileWriter myWriter = new FileWriter("Certificado.txt");
             myWriter.write(c.toString());
             myWriter.close();
         } catch (IOException e) {

@@ -398,12 +398,15 @@ public class EmpresaView extends javax.swing.JFrame {
                 currentEmpresa);
         selectDialog.setVisible(true);
         var certificado = selectDialog.getCertificado();
-        files.FileManagementSystem.geraCertificadoAluno(certificado);
-        JOptionPane.showMessageDialog(this, 
-            "O certificado etá disponível no arquivo certificado.txt no diretório deste executável :)", 
-            "Certificado gerado!", 
-            JOptionPane.INFORMATION_MESSAGE
-        );
+        if(certificado != null){
+            files.FileManagementSystem.geraCertificadoAluno(certificado);
+            JOptionPane.showMessageDialog(this, 
+                "O certificado etá disponível no arquivo certificado.txt no diretório deste executável :)", 
+                "Certificado gerado!", 
+                JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+        
         // TODO add your handling code here:
     }//GEN-LAST:event_miGeraCertificadoActionPerformed
 

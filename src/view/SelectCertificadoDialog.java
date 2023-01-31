@@ -29,6 +29,7 @@ public class SelectCertificadoDialog extends javax.swing.JDialog {
         super(parent, "Selecione", true);
         this.empresa = empresa;
         vagasComboModel = new VagasComboBoxModel(listVagas);
+        alunosComboBoxModel = new AlunoComboBoxModel();
         initComponents();
     }
 
@@ -200,9 +201,12 @@ public class SelectCertificadoDialog extends javax.swing.JDialog {
                 "Erro",
                 JOptionPane.ERROR_MESSAGE
             );
+            return;
         }
+        var alunos =  selectedVaga.getAlunos();
+        alunosComboBoxModel.clear();
+        alunosComboBoxModel.addListALuno(alunos);
         comboSelectAluno.setEnabled(true);
-        alunosComboBoxModel.addListALuno(selectedVaga.getAlunos());
 // TODO add your handling code here:
     }//GEN-LAST:event_comboVagaActionPerformed
 
@@ -232,6 +236,7 @@ public class SelectCertificadoDialog extends javax.swing.JDialog {
         var orientador = inputOrientador.getText();
         
         cert = new Certificado(selectedAluno, selectedVaga, empresa, dataInicio, dataFim, orientador);
+        files.FileManagementSystem.geraCertificadoAluno(cert);
         
         inputOrientador.setText("");
         inputDtFim.setText("");

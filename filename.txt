@@ -1,0 +1,6 @@
+       Certificado
+
+        Ao aluno nome 1, portador do CPF 12345678910, por concluir o estágio nome 2,
+        na emresa nome, orientado pelo professor Almir
+
+       O aluno estagiou entre 20/01/2022 e 20/02/2023
